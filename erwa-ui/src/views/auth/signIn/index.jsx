@@ -43,7 +43,7 @@ import {
 import { HSeparator } from "components/separator/Separator";
 import DefaultAuth from "layouts/auth/Default";
 // Assets
-import illustration from "assets/img/ERWA.png";
+import illustration from "assets/img/ERWA_processed.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
@@ -76,12 +76,13 @@ function SignIn() {
         me='auto'
         h='100%'
         alignItems='start'
-        justifyContent='center'
+        textAlign={'center'}
+        justifyContent={'center'}
         mb={{ base: "30px", md: "60px" }}
         px={{ base: "25px", md: "0px" }}
         mt={{ base: "40px", md: "14vh" }}
         flexDirection='column'>
-        <Box me='auto'>
+        <Box me='auto' w='100%'>
           <Heading color={textColor} fontSize='36px' mb='10px'>
             Sign In
           </Heading>

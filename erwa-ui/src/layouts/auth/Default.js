@@ -62,6 +62,7 @@ function AuthIllustration(props) {
           right='0px'>
           <Flex
             bg={`url(${illustrationBackground})`}
+            bgColor={'#f0ebff'}
             justify='center'
             align='end'
             w='100%'
@@ -71,7 +72,6 @@ function AuthIllustration(props) {
             position='absolute'
             borderBottomLeftRadius={{ lg: "120px", xl: "200px" }}></Flex>
         </Box>
-        <Footer />
       </Flex>
       <FixedPlugin />
     </Flex>

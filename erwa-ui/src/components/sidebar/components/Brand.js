@@ -2,9 +2,8 @@ import React from "react";
 
 // Chakra imports
 import { Flex, useColorModeValue, Image } from "@chakra-ui/react";
-import logoImage from '../../../assets/img/ERWA.png'
+import logoImage from '../../../assets/img/ERWA_processed.png'
 // Custom components
-import { HorizonLogo } from "components/icons/Icons";
 import { HSeparator } from "components/separator/Separator";
 
 export function SidebarBrand() {
