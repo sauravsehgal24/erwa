@@ -14,6 +14,10 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - the above command will install all the dependencies (just ignore all the errors)
 - now run the following command in the same folder: npm start
 - this should start the app and you can navigate to the displayed url to see the ui
+- navigate to http://localhost:3000
+- you should see the sign-in page
+- just click on "Sign In" button without entering any credentials
+- you should be re-directed to admin dashboard page
 
 ### configure and run  erwa/erwa-api ###
 - you need to configure the java source paths in the respective ide you are going to use

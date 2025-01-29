@@ -202,15 +202,17 @@ function SignIn() {
                 </Text>
               </NavLink>
             </Flex>
-            <Button
-              fontSize='sm'
-              variant='brand'
-              fontWeight='500'
-              w='100%'
-              h='50'
-              mb='24px'>
-              Sign In
-            </Button>
+            <NavLink to='/admin/default'>
+              <Button
+                fontSize='sm'
+                variant='brand'
+                fontWeight='500'
+                w='100%'
+                h='50'
+                mb='24px'>
+                Sign In
+              </Button>
+            </NavLink>
           </FormControl>
           <Flex
             flexDirection='column'
