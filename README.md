@@ -3,8 +3,6 @@
 This project contains the springboot api and react ui. Below are the steps to run both ui and api:
 
 ### Prerequists ###
-- maven 3.8.*
-- java 17
 - node 22.*
 - npm 10.*
 - python
