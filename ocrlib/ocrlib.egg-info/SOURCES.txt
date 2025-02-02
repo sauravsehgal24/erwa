@@ -1,0 +1,7 @@
+setup.py
+ocrlib/__init__.py
+ocrlib/ocr_service.py
+ocrlib.egg-info/PKG-INFO
+ocrlib.egg-info/SOURCES.txt
+ocrlib.egg-info/dependency_links.txt
+ocrlib.egg-info/top_level.txt

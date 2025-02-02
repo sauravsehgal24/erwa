@@ -7,9 +7,11 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - java 17
 - node 22.*
 - npm 10.*
+- python
+- pip (python package manager)
 
-### configure and run  erwa/erwa-ui ###
-- navigate to the erwa-ui folder in terminal or command-line
+### configure and run  erwa/erwaui ###
+- navigate to the erwaui folder in terminal or command-line
 - run the following command: npm i --save --force
 - the above command will install all the dependencies (just ignore all the errors)
 - now run the following command in the same folder: npm start
@@ -19,13 +21,17 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - just click on "Sign In" button without entering any credentials
 - you should be re-directed to admin dashboard page
 
-### configure and run  erwa/erwa-api ###
-- you need to configure the java source paths in the respective ide you are going to use
-- you might also need to configure the java jdk version and runtime and maven version for the project based on the ide you using
-- i am using vs code and i had to install the java extension pack extension for it to work
-- navigate to the erwa-api folder in terminal or command-line
-- run the following command: mvn clean install  (this will install the dependencies and will run the test cases)
-- now right click on the ErwaApiApplication.java file and run the file
-- this should start the api server on port 3001
-- navigate to http://localhost:3001/hello
-- you should see the message "server up"
+### configure and run  erwa/erwaapi ###
+- backend has 2 projects: ocrlib and erwaapi
+- ocrlib is a standalone python project in which you can add your ocr related code and run it locally without running the django server
+- erwapi is django server 
+#### Import the ocrlib in erwaapi ####
+- go to erwa/ocrlib and after adding your code, run this command to install the package locally: pip install .
+- this will install the orclib package in your local python repo
+- you can now import the functions from ocrlib into your erwaapi project with this import statement: from ocrlib import <func_name>
+- see the example i did in erwa/erwaapi/app/views.py
+- i have imported greet() function from ocrlib and added a route infront of it so whenever server starts and user can navigate to that route to see the greet message
+#### Run the erwaapi ####
+- go to erwa/erwaapi and run the command to start the server: python manage.py runserver
+- this will start the server at localhost:8000
+- NOTE: if you change the contents of ocrlib then you need to reinstall the ocrlib package in your local with the command noted above
