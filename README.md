@@ -33,3 +33,11 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - go to erwa/erwaapi and run the command to start the server: python manage.py runserver
 - this will start the server at localhost:8000
 - NOTE: if you change the contents of ocrlib then you need to reinstall the ocrlib package in your local with the command noted above
+
+### OPTIONAL - configure deepseek in your local ###
+- install ollama : https://ollama.com/download/windows
+- once installed, open cmd and run this command: ollama run deepseek-r1:1.5b
+- this will install the deepseek-r1:1.5b model in your local (1.5b is number of paramaters which is 1.5 billion in this case!!!! so make sure you have a good processor to run this)
+- you will see the success message once installed and then it will generate a prompt entering command and you can then enter your prompts
+- i have integrated this in erwa as well, navigate to erwa/ocrlib/deepseek/deepseek_test.py
+- run that file and you can interact with that model
