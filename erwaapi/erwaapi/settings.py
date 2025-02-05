@@ -37,16 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "django.contrib.sessions.middleware.SessionMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "app.middleware.auth_middleware.AuthMiddleware",
+    "app.middleware.role_middleware.RoleMiddleware"
 ]
 
 ROOT_URLCONF = 'erwaapi.urls'
@@ -77,6 +83,19 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'azure_sql': {
+        'ENGINE': 'django.db.backends.mssql',  # Correct engine
+        'NAME': 'adminuser',
+        'USER': 'Admin123!',
+        'PASSWORD': 'your_db_password',
+        'HOST': 'http://projectexpense.database.windows.net/',  # Use your actual SQL Server address
+        'PORT': '1433',  # Default SQL Server port
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+            'extra_params': 'TrustServerCertificate=yes;Pooling=True;Max Pool Size=50;',
+            'timeout': 30,  # 30 seconds timeout
+        },
     }
 }
 
@@ -121,3 +140,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# REST_FRAMEWORK = {
+#     "DEFAULT_AUTHENTICATION_CLASSES": (
+#         "rest_framework_simplejwt.authentication.JWTAuthentication",
+#     ),
+# }
+
+CORS_ALLOW_ALL_ORIGINS = True  # Allow React to access API
+
+JWT={
+    "exp":1800, # expire token in 30 mins
+    "secret":"asdfasdfasf321412rwfs#$@#$@#",
+    "algo":"HS256"
+}
+
