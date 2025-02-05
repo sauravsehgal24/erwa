@@ -20,6 +20,9 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - you should be re-directed to admin dashboard page
 
 ### configure and run  erwa/erwaapi ###
+- install all the python dependencies: navigate to erwa/erwaapi and run the following command: pip install -r requirements.txt
+- this will install all the required dependencies to run the project
+- if you adding new dependencies then make sure to run the following command after you install your dependencies inroder to update the requirements.txt: pip freeze > requirements.txt
 - backend has 2 projects: ocrlib and erwaapi
 - ocrlib is a standalone python project in which you can add your ocr related code and run it locally without running the django server
 - erwapi is django server 
@@ -34,10 +37,10 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - this will start the server at localhost:8000
 - NOTE: if you change the contents of ocrlib then you need to reinstall the ocrlib package in your local with the command noted above
 
-### OPTIONAL - configure deepseek in your local ###
+### OPTIONAL - configure meta llama in your local ###
 - install ollama : https://ollama.com/download/windows
-- once installed, open cmd and run this command: ollama run deepseek-r1:1.5b
-- this will install the deepseek-r1:1.5b model in your local (1.5b is number of paramaters which is 1.5 billion in this case!!!! so make sure you have a good processor to run this)
+- once installed, open cmd and run this command: ollama run llama3.2:1b
+- this will install the ollama run llama model in your local 
 - you will see the success message once installed and then it will generate a prompt entering command and you can then enter your prompts
-- i have integrated this in erwa as well, navigate to erwa/ocrlib/deepseek/deepseek_test.py
+- i have integrated this in erwa as well, navigate to erwa/ocrlib/llama/llama.py
 - run that file and you can interact with that model
