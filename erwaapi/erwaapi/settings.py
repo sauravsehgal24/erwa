@@ -1,9 +1,12 @@
-from decouple import Config, Csv
+from decouple import Config, RepositoryEnv
 from pathlib import Path
+from os.path import join
+import os
 
 # Initialize Config to access environment variables
-config = Config()
+config = Config(RepositoryEnv(join(os.getcwd(),'settings.ini')))
 
+print(config.get("ENV"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "rest_framework_simplejwt",
-    "corsheaders"
+    "corsheaders",
+    "app"
 ]
 
 MIDDLEWARE = [
@@ -77,15 +81,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
-    'azure_sql': {
-        'ENGINE': 'django.db.backends.mssql',  # Correct engine
-        'NAME': "Azure SQL SERVER",
+    'azure': {
+        'ENGINE': 'mssql',  # Correct engine
+        'NAME': config("AZURE_DB_NAME"),
         'USER': config("AZURE_DB_USERNAME"),
         'PASSWORD': config("AZURE_DB_PASSWORD"),
         'HOST': config("AZURE_DB_HOST"),  # Use your actual SQL Server address
         'PORT': '1433',  # Default SQL Server port
         'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
+            'driver': 'ODBC Driver 18 for SQL Server',
             'extra_params': 'TrustServerCertificate=yes;Pooling=True;Max Pool Size=50;',
             'timeout': 30,  # 30 seconds timeout
         },

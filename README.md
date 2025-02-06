@@ -44,3 +44,9 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - you will see the success message once installed and then it will generate a prompt entering command and you can then enter your prompts
 - i have integrated this in erwa as well, navigate to erwa/ocrlib/llama/llama.py
 - run that file and you can interact with that model
+
+
+### PYTHON COMMANDS ###
+- python manage.py runserver (to run the server locally)
+- python manage.py makemigrations    (create the migration file to run the migration against db, this has to be run before the below command after any model changes)
+- python manage.py migrate --database=azure (to update the azure db schema based on recent changes to tables)
