@@ -16,6 +16,8 @@
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
     "apexcharts": "3.50.0",
+    "axios": "^1.7.9",
+    "cross-env": "^7.0.3",
     "framer-motion": "^11.3.7",
     "npm-force-resolutions": "^0.0.10",
     "react": "19.0.0",
@@ -36,10 +38,10 @@
     "web-vitals": "^4.2.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "cross-env REACT_APP_ENV=local react-scripts start",
+    "build": "cross-env REACT_APP_ENV=dev react-scripts build",
+    "test": "cross-env REACT_APP_ENV=dev react-scripts test",
+    "eject": "cross-env REACT_APP_ENV=dev react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "preinstall": "npx npm-force-resolutions"
