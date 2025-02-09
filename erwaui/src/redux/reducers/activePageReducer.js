@@ -5,8 +5,6 @@ import initialState from "../initialState";
 const activePageReducer = (state = initialState, action) => {
     switch(action.type){
         case "CHANGE_TITLE":
-            state.activePage.title=action.payload;
-            console.log(state)
             return {
                 ...state,
                 activePage:{

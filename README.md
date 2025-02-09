@@ -50,3 +50,4 @@ This project contains the springboot api and react ui. Below are the steps to ru
 - python manage.py runserver (to run the server locally)
 - python manage.py makemigrations    (create the migration file to run the migration against db, this has to be run before the below command after any model changes)
 - python manage.py migrate --database=azure (to update the azure db schema based on recent changes to tables)
+- nohup python manage.py runserver 0.0.0.0:8000 > server.log 2>&1 & (run server in bg and forward logs to log file)
