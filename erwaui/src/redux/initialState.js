@@ -13,7 +13,6 @@ const initialState = {
         title:"Enterprise Expense Tracking"
     },
     userInfo:{
-        username:null,
         role:null,
         email:null,
         accessToken:null,

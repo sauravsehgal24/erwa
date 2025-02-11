@@ -16,16 +16,17 @@ const authReducer = (state = initialState, action) => {
         } };
   
       case LOGIN_SUCCESS:
+        // save token in local storage
+        localStorage.setItem("access_token",action.payload.access_token)
         return {
           ...state,
           appProperties:{
-            loading:true
+            loading:false
           },
           userInfo:{
-            username:action.payload.userInfo.username,
-            role:action.payload.userInfo.role,
-            email:action.payload.userInfo.email,
-            accessToken:action.payload.userInfo.token,
+            email:action.payload.email,
+            role:action.payload.role,
+            accessToken:action.payload.access_token,
           }
         };
   

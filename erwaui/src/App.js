@@ -15,8 +15,15 @@ import { useSelector } from "react-redux";
 // Chakra imports
 
 export default function Main() {
-  const user = useSelector((state) => state.user.userinfo);
+  const user = useSelector((state) => state.user.userInfo.email);
 
+  // useEffect(()=>{
+  //   // if token is available in local storage then fetch the user info 
+  //   const token = localStorage.getItem("access_token")
+  //   if(token){
+
+  //   }
+  // },[])
   
   // eslint-disable-next-line
   const [currentTheme, setCurrentTheme] = useState(initialTheme);
@@ -25,7 +32,7 @@ export default function Main() {
       <Routes>
         <Route path="auth/*" element={<AuthLayout />} />
         <Route
-          path="admin/*"
+          path="admin/*" 
           element={
             user ? <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} /> :
             <Navigate to="/auth/sign-in" replace />

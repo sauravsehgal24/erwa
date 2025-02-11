@@ -3,7 +3,8 @@ from django.db import models
 # User Model
 class User(models.Model):
     user_id = models.BigAutoField(primary_key=True)  # Auto-incrementing very big int
-    role = models.CharField(max_length=10)
+    email = models.CharField(max_length=255)
+    role = models.CharField(max_length=10, null=False, default="USER")
     password = models.CharField(max_length=255)  # Store encrypted password
     created = models.DateTimeField(auto_now_add=True)  # Auto-populate on creation
     updated = models.DateTimeField(auto_now=True)  # Auto-populate on update

@@ -1,18 +1,20 @@
-import config from 'config/config';
 import api from '../../util/api'
-import { loginSuccess } from 'redux/actions/userActions';
-import { renderErrMessage } from 'redux/actions/messageAction';
+import { loginSuccess } from '../actions/userActions';
+import { renderErrMessage } from '../actions/messageAction';
 
-export const loginUser = (uname, paswd) => {
+const loginUser =  (email, paswd, requestType) => {
+    const uri = requestType=="LOGIN"?"/user/login":"/user/register"
     return async (dispatch) => {
-      dispatch(loginRequest());
-        await api.post(config.apiConfig.baseURL+"/user/login",data={
-            username:uname,
-            password:paswd
-        }).then((res)=>{
+    //   dispatch(loginRequest());
+        await api.post(uri,{
+            email:email,
+            password:paswd,
+            role:"USER"
+        }).then((res)=>{ 
+            console.log("res")
+            console.log(res)
             if(res.status == 200){
-                const { token, userInfo } = response.data;
-                dispatch(loginSuccess(token, userInfo));
+                dispatch(loginSuccess(res.data));
             }
             else{
                 dispatch(renderErrMessage("Internal error during login"));
@@ -22,3 +24,5 @@ export const loginUser = (uname, paswd) => {
         })
     }
 }
+
+export {loginUser}

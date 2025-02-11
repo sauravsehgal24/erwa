@@ -16,21 +16,17 @@ users=[
 
 
 def generate_token(user):
-    print(settings.JWT["exp"])
     # Set expiration time for the access token (e.g., 15 minutes)
     expiration = time.time() + settings.JWT["exp"]
     print(expiration)
     # Create JWT payload (user details + role)
     payload = {
-        'username': user["username"],
+        'email': user["username"],
         'role': user["role"],  
         'exp': expiration,
         'iat': time.time(),
     }
-    print(payload)
-    # Generate the JWT token using the secret key and HS256 algorithm
     access_token = jwt.encode(payload, settings.JWT["secret"], algorithm='HS256')
-
     return access_token
 
 # Login API

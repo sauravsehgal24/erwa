@@ -21,7 +21,7 @@ from .role_access_paths import ROLE_PATHS
 
 
 class RoleMiddleware(MiddlewareMixin):
-    EXCLUDED_PATHS = ["/v1/login"]
+    EXCLUDED_PATHS = ["/v1/user/login","/v1/user/register"]
     def process_view(self, request, view_func, view_args, view_kwargs):
         if request.path in self.EXCLUDED_PATHS:
             return  # Skip authentication for login

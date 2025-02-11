@@ -22,7 +22,7 @@
 */
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 // Chakra imports
 import {
   Box,
@@ -49,7 +49,9 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import { signUpSchema } from "formValidationSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../redux/asyncActions/authAction";
 function SignUp() {
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
@@ -69,18 +71,22 @@ function SignUp() {
   );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+  const dispatch = useDispatch();
 
   const {
     register,
-    handleSubmit,
+    getValues,
     formState: { errors },
     trigger
   } = useForm({ resolver: yupResolver(signUpSchema) });
-
+  const navigate = useNavigate()
   const handleSignUp = async () => {
     const isValid = await trigger(); 
     if (isValid) {
-      console.log("Form is valid! Submitting...");
+      const {email, password, confirmPassword} = getValues()
+      const result = await dispatch(loginUser(email,password))
+      navigate("/admin/default")
+      console.log(result)
     } else {
       console.log("Form validation failed");
     }

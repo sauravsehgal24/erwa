@@ -1,14 +1,14 @@
-export const renderErrMessage = (value) => ({
+const renderErrMessage = (value) => ({
     type: "ERR",
     payload: value
   });
 
-export const renderWarnMessage = (value) => ({
+const renderWarnMessage = (value) => ({
     type: "WARN",
     payload: value
 });
 
-export const hideMessage = (value) => ({
+const hideMessage = (value) => ({
     type: "HIDE_MESSAGE",
     payload: value
 });
