@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function AdminNavbar(props) {
 	const [ scrolled, setScrolled ] = useState(false);
-	const brandText = useSelector((state) => {console.log(state);return state.activePage.activePage.title});
-	console.log(brandText)
+	const brandText = useSelector((state) => {return state.activePage.activePage.title});
 	useEffect(() => {
 		
 		window.addEventListener('scroll', changeNavbar);

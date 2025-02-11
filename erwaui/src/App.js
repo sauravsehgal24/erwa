@@ -10,11 +10,14 @@ import {
 } from '@chakra-ui/react';
 import initialTheme from './theme/theme'; //  { themeGreen }
 import { useEffect, useState } from 'react';
-import config from './config/config'
+import { useSelector } from "react-redux";
 
 // Chakra imports
 
 export default function Main() {
+  const user = useSelector((state) => state.user.userinfo);
+
+  
   // eslint-disable-next-line
   const [currentTheme, setCurrentTheme] = useState(initialTheme);
   return (
@@ -24,16 +27,17 @@ export default function Main() {
         <Route
           path="admin/*"
           element={
-            <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
+            user ? <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} /> :
+            <Navigate to="/auth/sign-in" replace />
           }
         />
-        <Route
+        {/* <Route
           path="rtl/*"
           element={
             <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
           }
-        />
-        <Route path="/" element={<Navigate to="/auth/sign-in" replace />} />
+        /> */}
+        <Route path="/" element={!user ? <Navigate to="/auth/sign-in" replace />: <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />} />
       </Routes>
     </ChakraProvider>
   );

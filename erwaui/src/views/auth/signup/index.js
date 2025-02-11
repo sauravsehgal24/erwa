@@ -44,14 +44,13 @@ import { HSeparator } from "components/separator/Separator";
 import DefaultAuth from "layouts/auth/Default";
 // Assets
 import illustration from "assets/img/ERWA_processed.png";
-import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { signInSchema } from "formValidationSchema";
+import { signUpSchema } from "formValidationSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-function SignIn() {
+function SignUp() {
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
@@ -72,22 +71,20 @@ function SignIn() {
   const handleClick = () => setShow(!show);
 
   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      trigger
-    } = useForm({ resolver: yupResolver(signInSchema) });
-  
-    const handleSignIn = async () => {
-      const isValid = await trigger(); 
-      if (isValid) {
-        console.log("Form is valid! Submitting...");
-      } else {
-        console.log("Form validation failed");
-      }
-    };
+    register,
+    handleSubmit,
+    formState: { errors },
+    trigger
+  } = useForm({ resolver: yupResolver(signUpSchema) });
 
-
+  const handleSignUp = async () => {
+    const isValid = await trigger(); 
+    if (isValid) {
+      console.log("Form is valid! Submitting...");
+    } else {
+      console.log("Form validation failed");
+    }
+  };
 
   return (
     <DefaultAuth illustrationBackground={illustration} image={illustration}>
@@ -106,7 +103,7 @@ function SignIn() {
         flexDirection='column'>
         <Box me='auto' w='100%'>
           <Heading color={textColor} fontSize='36px' mb='10px'>
-            Sign In
+            Sign Up
           </Heading>
           <Text
             mb='36px'
@@ -114,7 +111,7 @@ function SignIn() {
             color={textColorSecondary}
             fontWeight='400'
             fontSize='md'>
-            Enter your email and password to sign in!
+            Enter your email and password to sign up!
           </Text>
         </Box>
         <Flex
@@ -127,7 +124,7 @@ function SignIn() {
           mx={{ base: "auto", lg: "unset" }}
           me='auto'
           mb={{ base: "20px", md: "auto" }}>
-          <Button
+          {/* <Button
             fontSize='sm'
             me='0px'
             mb='26px'
@@ -142,23 +139,23 @@ function SignIn() {
             _focus={googleActive}>
             <Icon as={FcGoogle} w='20px' h='20px' me='10px' />
             Sign in with Google
-          </Button>
+          </Button> */}
           <Flex align='center' mb='25px'>
             <HSeparator />
-            <Text color='gray.400' mx='14px'>
+            {/* <Text color='gray.400' mx='14px'>
               or
-            </Text>
+            </Text> */}
             <HSeparator />
           </Flex>
           <FormControl>
             <Flex direction='column' textAlign={"left"}
-                  w={{ base: "100%", md: "420px" }}
-                  maxW='100%'
-                  background='transparent'
-                  borderRadius='15px'
-                  mx={{ base: "auto", lg: "unset" }}
-                  me='auto'
-                  mb={{ base: "20px", md: "auto" }}>
+                w={{ base: "100%", md: "420px" }}
+                maxW='100%'
+                background='transparent'
+                borderRadius='15px'
+                mx={{ base: "auto", lg: "unset" }}
+                me='auto'
+                mb={{ base: "20px", md: "auto" }}>
             <FormLabel
               display='flex'
               ms='4px'
@@ -179,15 +176,16 @@ function SignIn() {
               mb='24px'
               fontWeight='500'
               size='lg'
-            /></Flex>
+            /> 
+            </Flex>
             <Flex direction='column' textAlign={"left"}
-                  w={{ base: "100%", md: "420px" }}
-                  maxW='100%'
-                  background='transparent'
-                  borderRadius='15px'
-                  mx={{ base: "auto", lg: "unset" }}
-                  me='auto'
-                  mb={{ base: "20px", md: "auto" }}>
+                w={{ base: "100%", md: "420px" }}
+                maxW='100%'
+                background='transparent'
+                borderRadius='15px'
+                mx={{ base: "auto", lg: "unset" }}
+                me='auto'
+                mb={{ base: "20px", md: "auto" }}>
             <FormLabel
               ms='4px'
               fontSize='sm'
@@ -201,7 +199,7 @@ function SignIn() {
                 {...register("password")}
                 isRequired={true}
                 fontSize='sm'
-                placeholder='Min. 8 characters'
+                placeholder='Min. 6 characters AlphaNumeric'
                 mb='24px'
                 size='lg'
                 type={show ? "text" : "password"}
@@ -217,66 +215,77 @@ function SignIn() {
               </InputRightElement>
             </InputGroup>
             </Flex>
-            {/* <Flex justifyContent='space-between' align='center' mb='24px'>
-              <FormControl display='flex' alignItems='center'>
-                <Checkbox
-                  id='remember-login'
-                  colorScheme='brandScheme'
-                  me='10px'
+            <Flex direction='column' textAlign={"left"}
+                w={{ base: "100%", md: "420px" }}
+                maxW='100%'
+                background='transparent'
+                borderRadius='15px'
+                mx={{ base: "auto", lg: "unset" }}
+                me='auto'
+                mb={{ base: "20px", md: "auto" }}>
+            <FormLabel
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              display='flex'>
+              Confirm Password<Text color={brandStars}>*</Text>
+            </FormLabel><p style={{color:"red"}}>{errors.confirmPassword?.message}</p>
+            <InputGroup size='md'>
+              <Input
+                {...register("confirmPassword")}
+                isRequired={true}
+                fontSize='sm'
+                placeholder='Min. 6 characters AlphaNumeric'
+                mb='24px'
+                size='lg'
+                type={show ? "text" : "password"}
+                variant='auth'
+              />
+              <InputRightElement display='flex' alignItems='center' mt='4px'>
+                <Icon
+                  color={textColorSecondary}
+                  _hover={{ cursor: "pointer" }}
+                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                  onClick={handleClick}
                 />
-                <FormLabel
-                  htmlFor='remember-login'
-                  mb='0'
-                  fontWeight='normal'
-                  color={textColor}
-                  fontSize='sm'>
-                  Keep me logged in
-                </FormLabel>
-              </FormControl>
-              <NavLink to='/auth/forgot-password'>
-                <Text
-                  color={textColorBrand}
-                  fontSize='sm'
-                  w='124px'
-                  fontWeight='500'>
-                  Forgot password?
-                </Text>
-              </NavLink>
-            </Flex> */}
+              </InputRightElement>
+            </InputGroup>
+            </Flex>
               <Button
-                onClick={handleSignIn}
+                onClick={handleSignUp}
                 fontSize='sm'
                 variant='brand'
                 fontWeight='500'
                 w='100%'
                 h='50'
                 mb='24px'>
-                Sign In
+                Sign Up
               </Button>
-          </FormControl>
-          <Flex
-            flexDirection='column'
-            justifyContent='center'
-            alignItems='start'
-            maxW='100%'
-            mt='0px'>
-            <Text color={textColorDetails} fontWeight='400' fontSize='14px'>
-              Not registered yet?
-              <NavLink to='/auth/sign-up'>
-                <Text
-                  color={textColorBrand}
-                  as='span'
-                  ms='5px'
-                  fontWeight='500'>
-                  Create an Account
+              <Flex
+                flexDirection='column'
+                justifyContent='center'
+                alignItems='start'
+                maxW='100%'
+                mt='0px'>
+                <Text color={textColorDetails} fontWeight='400' fontSize='14px'>
+                Already registered?
+                <NavLink to='/auth/sign-in'>
+                    <Text
+                    color={textColorBrand}
+                    as='span'
+                    ms='5px'
+                    fontWeight='500'>
+                     Back to sign-in
+                    </Text>
+                </NavLink>
                 </Text>
-              </NavLink>
-            </Text>
-          </Flex>
+            </Flex>
+          </FormControl>
         </Flex>
       </Flex>
     </DefaultAuth>
   );
 }
 
-export default SignIn;
+export default SignUp;
