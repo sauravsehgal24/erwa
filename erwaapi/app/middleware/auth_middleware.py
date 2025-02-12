@@ -5,6 +5,7 @@ class AuthMiddleware(MiddlewareMixin):
     EXCLUDED_PATHS = ["/v1/user/login","/v1/user/register"]
     
     def process_view(self, request, view_func, view_args, view_kwargs):
+        print("in auth")
         if request.path in self.EXCLUDED_PATHS:
             return 
         auth_header = request.headers.get("Authorization")
@@ -16,7 +17,7 @@ class AuthMiddleware(MiddlewareMixin):
                 if(decoded_token.get("error", "") != ""):
                     raise Exception(decoded_token["error"])
                 request.role = decoded_token["role"]  # Attach role to request
-                request.username = decoded_token["username"]
+                request.email = decoded_token["email"]
             except Exception as e:
                 return JsonResponse({"error": str(e)}, status=401)
         else:   

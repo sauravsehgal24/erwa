@@ -17,7 +17,8 @@ const authReducer = (state = initialState, action) => {
   
       case LOGIN_SUCCESS:
         // save token in local storage
-        localStorage.setItem("access_token",action.payload.access_token)
+        if(!localStorage.getItem("access_token")) localStorage.setItem("access_token",action.payload.access_token)
+          console.log(action.payload)
         return {
           ...state,
           appProperties:{

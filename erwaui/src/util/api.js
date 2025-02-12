@@ -2,7 +2,7 @@ import axios from "axios";
 import config from '../config/config'
 
 const getAuthToken = () => {
-  return localStorage.getItem("token"); 
+  return localStorage.getItem("access_token"); 
 };
 
 const api = axios.create({

@@ -78,16 +78,14 @@ WSGI_APPLICATION = 'erwaapi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',  # Correct engine
-        'NAME': config("AZURE_DB_NAME"),
-        'USER': config("AZURE_DB_USERNAME"),
-        'PASSWORD': config("AZURE_DB_PASSWORD"),
-        'HOST': config("AZURE_DB_HOST"),  # Use your actual SQL Server address
-        'PORT': '1433',  # Default SQL Server port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.get("PG_DB_NAME"),
+        'USER': config.get("PG_DB_USERNAME"),
+        'PASSWORD': config.get("PG_DB_PASSWORD"),
+        'HOST': config.get("PG_DB_HOST"),  # Use 'db' if running in Docker Compose
+        'PORT': config.get("PG_DB_PORT"),
         'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
-            'extra_params': 'TrustServerCertificate=yes;Pooling=True;Max Pool Size=50;',
-            'timeout': 30,  # 30 seconds timeout
+            'options': '-c search_path=erwa_db_local'  # Set default schema
         },
     }
 }

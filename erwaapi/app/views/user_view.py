@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from app.models.UserModel import User
+from app.util import auth_util
 from app.util.auth_util import generate_token, decode_token
 import json
 
@@ -47,6 +48,24 @@ def register(request):
         status=200
     )
 
+
+@api_view(["GET"])
+def get_user_by_email(request):
+    email = request.email if request.email else request.GET.get("email")
+    if email:
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return JsonResponse({"message": "Invalid credentials"}, status=400)
+        else:
+             return JsonResponse(
+                {
+                    "email": user.email,
+                    "role": user.role,
+                },
+                status=200
+            )
+    else:
+        return JsonResponse({"message": "Unauthorized"}, status=403)
 
 # Login View
 @csrf_exempt  # Disables CSRF for testing, use token-based authentication in production
@@ -107,6 +126,7 @@ def login(request):
 user_patterns = [
     path("login", login, name="login"),
     path("register", register, name="register"),
+    path("get_user_by_email", get_user_by_email, name="get_user_by_email"),
     # path("users", get_users, name="get_users"),
     # path("settings", post_settings, name="post_settings"),
     # path("profile", get_profile, name="get_profile"),

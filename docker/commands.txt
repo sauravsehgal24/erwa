@@ -1,0 +1,3 @@
+docker run -d -p 2222:22 -p 8000:8000 -p 3000:3000 -v erwa_server:/data erwa_server:latest
+
+docker run -d -p 5444:5432  -v erwa_db:/var/lib/postgresql/data erwa_postgres_db:latest
