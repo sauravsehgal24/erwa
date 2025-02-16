@@ -1,2 +1,2 @@
 from .UserModel import User
-from .ReceiptModel import Receipt
+from .ExpenseModel import Expense
