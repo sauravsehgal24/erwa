@@ -6,6 +6,7 @@ import initialState from "../initialState";
 const LOGIN_REQUEST = "LOGIN_REQUEST";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILURE = "LOGIN_FAILURE";
+const LOGOUT = "LOGOUT";
 
 // Reducer function
 const authReducer = (state = initialState, action) => {
@@ -15,10 +16,21 @@ const authReducer = (state = initialState, action) => {
             loading:true
         } };
   
+      case LOGOUT:
+        return {
+          ...state,
+          appProperties:{
+            loading:false
+          },
+          userInfo:{
+            email:null,
+            role:null,
+            accessToken:null,
+          }
+        }; 
       case LOGIN_SUCCESS:
         // save token in local storage
         if(!localStorage.getItem("access_token")) localStorage.setItem("access_token",action.payload.access_token)
-          console.log(action.payload)
         return {
           ...state,
           appProperties:{

@@ -92,7 +92,7 @@ export default function Dashboard(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
-      if (route.layout === '/admin') {
+      if (route.layout === '/main') {
         return (
           <Route path={`${route.path}`} element={route.component} key={key} />
         );

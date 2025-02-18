@@ -6,6 +6,7 @@ import {
   MdPerson,
   MdHome,
   MdLock,
+  MdLogout,
   MdOutlineShoppingCart,
 } from 'react-icons/md';
 
@@ -14,24 +15,25 @@ import MainDashboard from 'views/admin/default';
 import NFTMarketplace from 'views/admin/marketplace';
 import Profile from 'views/admin/profile';
 import DataTables from 'views/admin/dataTables';
-import RTL from 'views/admin/rtl';
 
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
 import SignUpCentered from 'views/auth/signup';
-
+import LogoutCentered from 'views/auth/logout'
 const routes = [
   {
     name: 'Main Dashboard',
-    layout: '/admin',
+    layout: '/main',
     path: '/default',
+    roles:['USER','ADMIN'],
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <MainDashboard />,
   },
   {
     name: 'NFT Marketplace',
-    layout: '/admin',
+    layout: '/main',
     path: '/nft-marketplace',
+    roles:['USER','ADMIN'],
     icon: (
       <Icon
         as={MdOutlineShoppingCart}
@@ -45,15 +47,17 @@ const routes = [
   },
   {
     name: 'Data Tables',
-    layout: '/admin',
+    layout: '/main',
+    roles:['USER','ADMIN'],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/data-tables',
     component: <DataTables />,
   },
   {
     name: 'Profile',
-    layout: '/admin',
+    layout: '/main',
     path: '/profile',
+    roles:['USER','ADMIN'],
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: <Profile />,
   },
@@ -61,22 +65,25 @@ const routes = [
     name: 'Sign In',
     layout: '/auth',
     path: '/sign-in',
+    roles:['USER','ADMIN'],
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
     component: <SignInCentered />,
   },
   {
-    name: 'Sign In',
+    name: 'Logout',
     layout: '/auth',
-    path: '/sign-up',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    component: <SignUpCentered />,
+    path: '/logout',
+    roles:['USER','ADMIN'], 
+    icon: <Icon as={MdLogout} width="20px" height="20px" color="inherit" />,
+    component: <LogoutCentered />,
   },
   {
-    name: 'RTL Admin',
-    layout: '/rtl',
-    path: '/rtl-default',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <RTL />,
+    name: 'Sign Up',
+    layout: '/auth',
+    path: '/sign-up',
+    roles:['USER','ADMIN'],
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <SignUpCentered />,
   },
 ];
 

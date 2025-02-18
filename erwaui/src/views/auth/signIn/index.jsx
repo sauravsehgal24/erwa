@@ -21,7 +21,7 @@
 
 */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 // Chakra imports
 import {
@@ -53,7 +53,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/asyncActions/authAction";
-function SignIn() {
+import { renderSuccessMessage } from "../../../redux/actions/messageAction";
+function SignIn(props) {
+
+  // useEffect(()=>{
+
+  // },[props.action])
+
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
@@ -85,8 +91,7 @@ function SignIn() {
       if (isValid) {
         const {email, password} = getValues()
         const result = await dispatch(loginUser(email,password,"LOGIN"))
-        navigate("/admin/default")
-        console.log(result)
+        navigate("/main/default")
       } else {
         console.log("Form validation failed");
       }
