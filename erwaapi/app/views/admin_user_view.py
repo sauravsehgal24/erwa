@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.urls import path
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -47,3 +48,11 @@ class AdminView(View):
             return JsonResponse(model_to_dict(expense))
         except (json.JSONDecodeError, KeyError):
             return JsonResponse({'error': 'Invalid request data'}, status=400)
+
+
+# Define subroutes
+admin_user_patterns = [
+    path("login", login, name="login"),
+    path("register", register, name="register"),
+    path("get_user_by_email", get_user_by_email, name="get_user_by_email")
+]
