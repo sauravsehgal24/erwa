@@ -85,7 +85,7 @@ function SignUp() {
     if (isValid) {
       const {email, password, confirmPassword} = getValues()
       const result = await dispatch(loginUser(email,password))
-      navigate("/admin/default")
+      navigate("/main/default")
       console.log(result)
     } else {
       console.log("Form validation failed");

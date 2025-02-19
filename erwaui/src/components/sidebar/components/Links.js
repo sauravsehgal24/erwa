@@ -3,10 +3,11 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 // chakra imports
 import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {changePageTitle } from "../../../redux/actions/activePageActions";
 export function SidebarLinks(props) {
 
+  const user = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
 
   const handleNavLinkClick = (routeName) => {
@@ -58,10 +59,9 @@ export function SidebarLinks(props) {
           </>
         );
       } else if (
-        route.layout === "/admin" ||
-        route.layout === "/auth" ||
-        route.layout === "/rtl"
+        route.layout === "/main" && route.roles.includes(user.role)
       ) {
+        console.log(route)
         return (
           <NavLink key={index} to={route.layout + route.path}>
             {route.icon ? (

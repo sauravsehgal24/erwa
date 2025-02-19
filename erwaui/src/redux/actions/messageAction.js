@@ -8,9 +8,14 @@ const renderWarnMessage = (value) => ({
     payload: value
 });
 
+const renderSuccessMessage = (value) => ({
+    type: "SUCCESS",
+    payload: value
+});
+
 const hideMessage = (value) => ({
     type: "HIDE_MESSAGE",
     payload: value
 });
 
-export {renderErrMessage, renderWarnMessage, hideMessage}
+export {renderErrMessage, renderWarnMessage, hideMessage, renderSuccessMessage}

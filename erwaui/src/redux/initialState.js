@@ -8,6 +8,7 @@ const initialState = {
         active:false,
         type:null, //err warn
         message: "This is a warning message",
+        color:null
     },
     activePage:{
         title:"Enterprise Expense Tracking"
