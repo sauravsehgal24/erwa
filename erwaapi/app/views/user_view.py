@@ -98,36 +98,9 @@ def login(request):
     )
 
 
-
-
-
-# @api_view(['GET'])
-# def get_users(request):
-#     return JsonResponse({"message": "User base route"})
-
-# @api_view(['GET'])
-# def get_profile(request):
-#     return JsonResponse({"message": "User Profile"})
-
-# @api_view(['POST'])
-# def post_settings(request):
-#     return JsonResponse({"message": "User Settings"})
-
-# @api_view(['POST'])
-# def login(request):
-#     return JsonResponse({"message": "User Settings"})
-
-# @api_view(['POST'])
-# def register(request):
-#     return JsonResponse({"message": "User Settings"})
-
-
 # Define subroutes
 user_patterns = [
     path("login", login, name="login"),
     path("register", register, name="register"),
-    path("get_user_by_email", get_user_by_email, name="get_user_by_email"),
-    # path("users", get_users, name="get_users"),
-    # path("settings", post_settings, name="post_settings"),
-    # path("profile", get_profile, name="get_profile"),
+    path("get_user_by_email", get_user_by_email, name="get_user_by_email")
 ]
