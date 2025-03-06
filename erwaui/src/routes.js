@@ -13,8 +13,8 @@ import {
 import MainDashboard from 'views/admin/default';
 import Profile from 'views/admin/profile';
 import DataTables from 'views/admin/dataTables';
-import FormsSubmission from 'views/employee/forms/userSubmission';
-import SubmissionConfirmation from 'views/employee/forms/confirmation';
+import FormsSubmission from 'views/employee/userSubmission';
+import SubmissionConfirmation from 'views/employee/confirmation';
 
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
