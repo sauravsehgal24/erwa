@@ -4,6 +4,7 @@
 import {
   Box,
   Flex,
+  Icon,
   Table,
   Tbody,
   Td,
@@ -27,6 +28,8 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
+// Assets
+import { MdCancel, MdCheckCircle, MdOutlineError, MdHelpOutline } from 'react-icons/md';
 
 const columnHelper = createColumnHelper();
 
@@ -87,22 +90,47 @@ export default function ExpenseTable({ tableData, setTableData }) {
     }),
     columnHelper.accessor('status', {
       id: 'status',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Status</Text>,
+      header: () => (
+        <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+          Status
+        </Text>
+      ),
       cell: (info) => {
         const rowIndex = info.row.index;
-        return (
-          editingRow === rowIndex ? (
-            <Select
-              value={tempStatus[rowIndex] || tableData[rowIndex].status}
-              onChange={(e) => handleStatusChange(rowIndex, e.target.value)}
-            >
-              {statusOptions.map((status) => (
-                <option key={status} value={status}>{status}</option>
-              ))}
-            </Select>
-          ) : (
-            <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>
-          )
+        const statusValue = info.getValue();
+        const statusIcon =
+          statusValue === 'Approved'
+            ? MdCheckCircle
+            : statusValue === 'Declined'
+            ? MdCancel
+            : statusValue === 'In-Review'
+            ? MdOutlineError
+            : MdHelpOutline;
+        const statusColor =
+          statusValue === 'Approved'
+            ? 'green.500'
+            : statusValue === 'Declined'
+            ? 'red.500'
+            : statusValue === 'In-Review'
+            ? 'orange.500'
+            : 'gray.500';
+    
+        return editingRow === rowIndex ? (
+          <Select
+            value={tempStatus[rowIndex] || tableData[rowIndex].status}
+            onChange={(e) => handleStatusChange(rowIndex, e.target.value)}
+          >
+            {statusOptions.map((status) => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </Select>
+        ) : (
+          <Flex align="center">
+            <Icon w="24px" h="24px" me="5px" color={statusColor} as={statusIcon} />
+            <Text color={textColor} fontSize="sm" fontWeight="700">
+              {statusValue}
+            </Text>
+          </Flex>
         );
       },
     }),
