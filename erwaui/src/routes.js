@@ -7,14 +7,14 @@ import {
   MdHome,
   MdLock,
   MdLogout,
-  MdOutlineShoppingCart,
 } from 'react-icons/md';
 
 // Admin Imports
 import MainDashboard from 'views/admin/default';
-import NFTMarketplace from 'views/admin/marketplace';
 import Profile from 'views/admin/profile';
 import DataTables from 'views/admin/dataTables';
+import FormsSubmission from 'views/employee/forms/userSubmission';
+import SubmissionConfirmation from 'views/employee/forms/confirmation';
 
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
@@ -30,28 +30,28 @@ const routes = [
     component: <MainDashboard />,
   },
   {
-    name: 'NFT Marketplace',
-    layout: '/main',
-    path: '/nft-marketplace',
-    roles:['USER','ADMIN'],
-    icon: (
-      <Icon
-        as={MdOutlineShoppingCart}
-        width="20px"
-        height="20px"
-        color="inherit"
-      />
-    ),
-    component: <NFTMarketplace />,
-    secondary: true,
-  },
-  {
     name: 'Data Tables',
     layout: '/main',
     roles:['USER','ADMIN'],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/data-tables',
     component: <DataTables />,
+  },
+  {
+    name: 'Employee Forms',
+    layout: '/main',
+    roles:['USER','ADMIN'],
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/employee-form',
+    component: <FormsSubmission />,
+  },
+  {
+    name: 'Submission Confirmation',
+    layout: '/main',
+    roles:['USER','ADMIN'],
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/submission-confirmation',
+    component: <SubmissionConfirmation />,
   },
   {
     name: 'Profile',
