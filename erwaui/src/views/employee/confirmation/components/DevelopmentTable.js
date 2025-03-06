@@ -4,6 +4,7 @@
 import {
   Box,
   Flex,
+  Icon,
   Table,
   Tbody,
   Td,
@@ -25,6 +26,8 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
+// Assets
+import { MdCancel, MdCheckCircle, MdOutlineError, MdHelpOutline } from 'react-icons/md';
 
 const columnHelper = createColumnHelper();
 
@@ -73,9 +76,42 @@ export default function ExpenseTable(props) {
     }),
     columnHelper.accessor('status', {
       id: 'status',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Status</Text>,
-      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
-    }),
+      header: () => (
+        <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+          Status
+        </Text>
+      ),
+      cell: (info) => (
+        <Flex align="center">
+          <Icon
+            w="24px"
+            h="24px"
+            me="5px"
+            color={
+              info.getValue() === 'Approved'
+                ? 'green.500'
+                : info.getValue() === 'Declined'
+                ? 'red.500'
+                : info.getValue() === 'In-Review'
+                ? 'orange.500'
+                : 'gray.500'
+            }
+            as={
+              info.getValue() === 'Approved'
+                ? MdCheckCircle
+                : info.getValue() === 'Declined'
+                ? MdCancel
+                : info.getValue() === 'In-Review'
+                ? MdOutlineError
+                : MdHelpOutline
+            }
+          />
+          <Text color={textColor} fontSize="sm" fontWeight="700">
+            {info.getValue()}
+          </Text>
+        </Flex>
+      ),
+    }),    
     columnHelper.accessor('approved_by', {
       id: 'approved_by',
       header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Approved By</Text>,

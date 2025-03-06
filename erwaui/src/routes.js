@@ -9,10 +9,14 @@ import {
   MdLogout,
 } from 'react-icons/md';
 
-// Admin Imports
+// Shared Imports (User & Admin)
 import MainDashboard from 'views/admin/default';
 import Profile from 'views/admin/profile';
+
+// Admin Imports
 import DataTables from 'views/admin/dataTables';
+
+// Employee  Imports
 import FormsSubmission from 'views/employee/userSubmission';
 import SubmissionConfirmation from 'views/employee/confirmation';
 

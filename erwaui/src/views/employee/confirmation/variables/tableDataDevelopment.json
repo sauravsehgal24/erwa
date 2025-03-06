@@ -1,13 +1,24 @@
 [
   {
     "expense_id": 1,
+    "full_name": "Saurav Singh",
+    "email": "xyz@abc.com",
+    "amount": 100,
+    "file_url": "#",
+    "submitted_date": "2025-03-12",
+    "updated_date": "2025-04-15",
+    "status": "Pending",
+    "approved_by": null
+  },
+  {
+    "expense_id": 1,
     "full_name": "John Doe",
     "email": "xyz@abc.com",
     "amount": 100,
     "file_url": "#",
     "submitted_date": "2025-01-01",
     "updated_date": "2025-01-11",
-    "status": "In Review",
+    "status": "In-Review",
     "approved_by": null
   },
   {

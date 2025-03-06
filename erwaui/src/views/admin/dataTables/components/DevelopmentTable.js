@@ -36,7 +36,7 @@ export default function ExpenseTable({ tableData, setTableData }) {
 
   const [editingRow, setEditingRow] = React.useState(null);
   const [tempStatus, setTempStatus] = React.useState({});
-  const statusOptions = ['Pending', 'In Review', 'Approved', 'Declined'];
+  const statusOptions = ['Pending', 'In-Review', 'Approved', 'Declined'];
 
   const handleStatusChange = (rowIndex, newStatus) => {
     setTempStatus((prev) => ({ ...prev, [rowIndex]: newStatus }));
