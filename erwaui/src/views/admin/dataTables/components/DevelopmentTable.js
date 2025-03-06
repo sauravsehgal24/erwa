@@ -4,7 +4,6 @@
 import {
   Box,
   Flex,
-  Progress,
   Table,
   Tbody,
   Td,
@@ -13,6 +12,7 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  Link,
 } from '@chakra-ui/react';
 import {
   createColumnHelper,
@@ -24,158 +24,110 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
-import { AndroidLogo, AppleLogo, WindowsLogo } from 'components/icons/Icons';
 import * as React from 'react';
-// Assets
 
 const columnHelper = createColumnHelper();
 
-// const columns = columnsDataCheck;
-export default function ComplexTable(props) {
-  const { tableData } = props;
-  const [sorting, setSorting] = React.useState([]);
+export default function ExpenseTable(props) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const iconColor = useColorModeValue('secondaryGray.500', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-  let defaultData = tableData;
+  
+  const sampleData = [
+    {
+      expense_id: 1,
+      full_name: 'John Doe',
+      email: 'xyz@abc.com',
+      amount: 100,
+      file_url: '#',
+      submitted_date: '2025-01-01',
+      updated_date: '2025-01-11',
+      status: 'In Review',
+      approved_by: null,
+    },
+    {
+      expense_id: 2,
+      full_name: 'John Wick',
+      email: 'xyz@abc.com',
+      amount: 100,
+      file_url: '#',
+      submitted_date: '2025-01-10',
+      updated_date: '2025-01-11',
+      status: 'Approved',
+      approved_by: "Heet Thakkar",
+    },
+     {
+      expense_id: 2,
+      full_name: 'Jamie Fox',
+      email: 'xyz@abc.com',
+      amount: 1000,
+      file_url: '#',
+      submitted_date: '2025-01-25',
+       updated_date: '2025-01-11',
+      status: 'Declined',
+      approved_by: "Heet Thakkar",
+    },
+  ];
+
   const columns = [
-    columnHelper.accessor('name', {
-      id: 'name',
-      header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
-          NAME
-        </Text>
-      ),
-      cell: (info) => (
-        <Flex align="center">
-          <Text color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}
-          </Text>
-        </Flex>
-      ),
+    columnHelper.accessor('expense_id', {
+      id: 'expense_id',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Expense ID</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
     }),
-    columnHelper.accessor('tech', {
-      id: 'tech',
-      header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
-          STATUS
-        </Text>
-      ),
-      cell: (info) => (
-        <Flex align="center">
-          {info.getValue().map((item, key) => {
-            if (item === 'apple') {
-              return (
-                <AppleLogo
-                  key={key}
-                  color={iconColor}
-                  me="16px"
-                  h="18px"
-                  w="15px"
-                />
-              );
-            } else if (item === 'android') {
-              return (
-                <AndroidLogo
-                  key={key}
-                  color={iconColor}
-                  me="16px"
-                  h="18px"
-                  w="16px"
-                />
-              );
-            } else if (item === 'windows') {
-              return (
-                <WindowsLogo key={key} color={iconColor} h="18px" w="19px" />
-              );
-            }
-          })}
-        </Flex>
-      ),
+    columnHelper.accessor('full_name', {
+      id: 'full_name',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Full Name</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
     }),
-    columnHelper.accessor('date', {
-      id: 'date',
-      header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
-          DATE
-        </Text>
-      ),
-      cell: (info) => (
-        <Text color={textColor} fontSize="sm" fontWeight="700">
-          {info.getValue()}
-        </Text>
-      ),
+    columnHelper.accessor('email', {
+      id: 'email',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Email</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{info.getValue()}</Text>,
     }),
-    columnHelper.accessor('progress', {
-      id: 'progress',
-      header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
-          PROGRESS
-        </Text>
-      ),
-      cell: (info) => (
-        <Flex align="center">
-          <Text me="10px" color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}%
-          </Text>
-          <Progress
-            variant="table"
-            colorScheme="brandScheme"
-            h="8px"
-            w="63px"
-            value={info.getValue()}
-          />
-        </Flex>
-      ),
+    columnHelper.accessor('amount', {
+      id: 'amount',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Amount ($)</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">${info.getValue()}</Text>,
+    }),
+    columnHelper.accessor('file_url', {
+      id: 'file_url',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Receipt</Text>,
+      cell: (info) => <Link href={info.getValue()} color="blue.500" isExternal>View</Link>,
+    }),
+    columnHelper.accessor('submitted_date', {
+      id: 'submitted_date',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Submitted Date</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{new Date(info.getValue()).toLocaleDateString()}</Text>,
+    }),
+    columnHelper.accessor('updated_date', {
+      id: 'updated_date',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Updated Date</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{new Date(info.getValue()).toLocaleDateString()}</Text>,
+    }),
+    columnHelper.accessor('status', {
+      id: 'status',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Status</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
+    }),
+    columnHelper.accessor('approved_by', {
+      id: 'approved_by',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Approved By</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{info.getValue() || 'N/A'}</Text>,
     }),
   ];
-  const [data, setData] = React.useState(() => [...defaultData]);
+
   const table = useReactTable({
-    data,
+    data: sampleData,
     columns,
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
   });
+
   return (
-    <Card
-      flexDirection="column"
-      w="100%"
-      px="0px"
-      overflowX={{ sm: 'scroll', lg: 'hidden' }}
-    >
+    <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
       <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
-        <Text
-          color={textColor}
-          fontSize="22px"
-          fontWeight="700"
-          lineHeight="100%"
-        >
-          Development Table
+        <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
+          Expense Table
         </Text>
         <Menu />
       </Flex>
@@ -184,62 +136,24 @@ export default function ComplexTable(props) {
           <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <Th
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      pe="10px"
-                      borderColor={borderColor}
-                      cursor="pointer"
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      <Flex
-                        justifyContent="space-between"
-                        align="center"
-                        fontSize={{ sm: '10px', lg: '12px' }}
-                        color="gray.400"
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                        {{
-                          asc: '',
-                          desc: '',
-                        }[header.column.getIsSorted()] ?? null}
-                      </Flex>
-                    </Th>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <Th key={header.id} borderColor={borderColor}>
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </Th>
+                ))}
               </Tr>
             ))}
           </Thead>
           <Tbody>
-            {table
-              .getRowModel()
-              .rows.slice(0, 11)
-              .map((row) => {
-                return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <Td
-                          key={cell.id}
-                          fontSize={{ sm: '14px' }}
-                          minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                          borderColor="transparent"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })}
+            {table.getRowModel().rows.map((row) => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Td key={cell.id} borderColor="transparent">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </Box>
