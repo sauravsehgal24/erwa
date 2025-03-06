@@ -32,7 +32,7 @@ const routes = [
   {
     name: 'Data Tables',
     layout: '/main',
-    roles:['USER','ADMIN'],
+    roles:['ADMIN'],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/data-tables',
     component: <DataTables />,
@@ -40,7 +40,7 @@ const routes = [
   {
     name: 'Employee Forms',
     layout: '/main',
-    roles:['USER','ADMIN'],
+    roles:['USER'],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/employee-form',
     component: <FormsSubmission />,
@@ -48,7 +48,7 @@ const routes = [
   {
     name: 'Submission Confirmation',
     layout: '/main',
-    roles:['USER','ADMIN'],
+    roles:['USER'],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/submission-confirmation',
     component: <SubmissionConfirmation />,

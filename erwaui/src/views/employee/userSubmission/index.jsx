@@ -34,9 +34,9 @@ export default function ExpenseTable() {
   });
   
   const [tableData, setTableData] = React.useState([
-    { id: 1, item_name: 'Item 1', rate: 10, quantity: 2, amount: 20 },
-    { id: 2, item_name: 'Item 2', rate: 15, quantity: 1, amount: 15 },
-    { id: 3, item_name: 'Item 3', rate: 8, quantity: 3, amount: 24 },
+    { item_name: 'Item 1', rate: 10, quantity: 2, amount: 20 },
+    { item_name: 'Item 2', rate: 15, quantity: 1, amount: 15 },
+    { item_name: 'Item 3', rate: 8, quantity: 3, amount: 24 },
   ]);
   
   const handleChange = (e) => {
@@ -58,11 +58,6 @@ export default function ExpenseTable() {
     setTableData(updatedData);
   };
 
-  const handleDeleteRow = (index) => {
-    const updatedData = tableData.filter((_, i) => i !== index);
-    setTableData(updatedData);
-  };
-
   const handleClear = () => {
     setFormData({ full_name: '', email: '', amount: '', file_url: '', sub_total: '', taxes: '', total: '' });
   };
@@ -78,11 +73,14 @@ export default function ExpenseTable() {
         <Input placeholder="Email" name="email" value={formData.email} onChange={handleChange} mb="4" />
         <Input placeholder="Amount" name="amount" value={formData.amount} onChange={handleChange} mb="4" />
         <Input type="file" onChange={handleFileUpload} mb="4" />
+
         <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="4" />
-        <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="4" />
-        <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="4" />
+      <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="4" />
+      <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="4" />
+        
         <Button colorScheme="blue" onClick={() => alert('Form submitted!')} mr="4">Submit</Button>
         <Button colorScheme="red" onClick={handleClear}>Clear</Button>
+
       </Box>
       <Table variant="simple">
         <Thead>
@@ -91,12 +89,11 @@ export default function ExpenseTable() {
             <Th>Rate</Th>
             <Th>Quantity</Th>
             <Th>Amount</Th>
-            <Th>Action</Th>
           </Tr>
         </Thead>
         <Tbody>
           {tableData.map((row, index) => (
-            <Tr key={row.id}>
+            <Tr key={index}>
               <Td>
                 <Input
                   value={row.item_name}
@@ -120,13 +117,19 @@ export default function ExpenseTable() {
               <Td>
                 <Text fontWeight="700">${row.amount}</Text>
               </Td>
-              <Td>
-                <Button colorScheme="red" size="sm" onClick={() => handleDeleteRow(index)}>Delete</Button>
-              </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
+
+      {/* <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="4" />
+      <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="4" />
+      <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="4" /> */}
+
+
+      {/* <Button colorScheme="blue" onClick={() => alert('Form submitted!')} mr="4">Submit</Button>
+      <Button colorScheme="red" onClick={handleClear}>Clear</Button> */}
+
     </Card>
   );
 }
