@@ -10,13 +10,14 @@ import {
 } from 'react-icons/md';
 
 // Shared Imports (User & Admin)
-import MainDashboard from 'views/admin/default';
 import Profile from 'views/admin/profile';
 
 // Admin Imports
 import DataTables from 'views/admin/dataTables';
+import AdminDashboard from 'views/admin/default';
 
 // Employee  Imports
+import EmployeeDashboard from 'views/employee/dashboard';
 import FormsSubmission from 'views/employee/userSubmission';
 import SubmissionConfirmation from 'views/employee/confirmation';
 
@@ -26,12 +27,12 @@ import SignUpCentered from 'views/auth/signup';
 import LogoutCentered from 'views/auth/logout'
 const routes = [
   {
-    name: 'Main Dashboard',
+    name: 'Admin Dashboard',
     layout: '/main',
-    path: '/default',
-    roles:['USER','ADMIN'],
+    path: '/admin-default',
+    roles:['ADMIN'],
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <MainDashboard />,
+    component: <AdminDashboard />,
   },
   {
     name: 'Data Tables',
@@ -40,6 +41,14 @@ const routes = [
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/data-tables',
     component: <DataTables />,
+  },
+  {
+    name: 'Employee Dashboard',
+    layout: '/main',
+    path: '/emp-dashboard',
+    roles:['USER',],
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <EmployeeDashboard />,
   },
   {
     name: 'Employee Forms',
