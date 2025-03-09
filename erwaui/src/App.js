@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import {} from 'react-router-dom';
 import AuthLayout from './layouts/auth';
 import AdminLayout from './layouts/admin';
-import RTLLayout from './layouts/rtl';
 import {
   ChakraProvider,
   // extendTheme
@@ -30,7 +29,7 @@ export default function Main() {
         const userInfo = res.data
         userInfo.access_token = token
         dispatch(loginSuccess(userInfo))
-        navigate("/main/default")
+        navigate("/main/emp-dashboard")
       }).catch((err)=>{
         console.log(err)
       })
@@ -50,12 +49,6 @@ export default function Main() {
             <Navigate to="/auth/sign-in" replace />
           }
         />
-        {/* <Route
-          path="rtl/*"
-          element={
-            <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
-          }
-        /> */}
         <Route path="/" element={!user.email ? <Navigate to="/auth/sign-in" replace />: <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />} />
       </Routes>
       <MessagePopUp />

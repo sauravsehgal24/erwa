@@ -91,7 +91,7 @@ function SignIn(props) {
       if (isValid) {
         const {email, password} = getValues()
         const result = await dispatch(loginUser(email,password,"LOGIN"))
-        navigate("/main/default")
+        navigate("/main/profile")
       } else {
         console.log("Form validation failed");
       }
