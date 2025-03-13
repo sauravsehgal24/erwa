@@ -7,6 +7,7 @@ import {
   MdHome,
   MdLock,
   MdLogout,
+  MdUpload
 } from 'react-icons/md';
 
 // Shared Imports (User & Admin)
@@ -35,7 +36,7 @@ const routes = [
     component: <AdminDashboard />,
   },
   {
-    name: 'Data Tables',
+    name: 'Reports',
     layout: '/main',
     roles:['ADMIN'],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
@@ -43,7 +44,7 @@ const routes = [
     component: <DataTables />,
   },
   {
-    name: 'Employee Dashboard',
+    name: 'Dashboard',
     layout: '/main',
     path: '/emp-dashboard',
     roles:['USER',],
@@ -51,15 +52,15 @@ const routes = [
     component: <EmployeeDashboard />,
   },
   {
-    name: 'Employee Forms',
+    name: 'Upload Expense',
     layout: '/main',
     roles:['USER'],
-    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdUpload} width="20px" height="20px" color="inherit" />,
     path: '/employee-form',
     component: <FormsSubmission />,
   },
   {
-    name: 'Submission Confirmation',
+    name: 'Expense Status',
     layout: '/main',
     roles:['USER'],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,

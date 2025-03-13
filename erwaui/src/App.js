@@ -29,7 +29,7 @@ export default function Main() {
         const userInfo = res.data
         userInfo.access_token = token
         dispatch(loginSuccess(userInfo))
-        navigate("/main/emp-dashboard")
+        navigate("/main/profile")
       }).catch((err)=>{
         console.log(err)
       })
