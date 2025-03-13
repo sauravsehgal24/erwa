@@ -1,17 +1,42 @@
+/*!
+  _   _  ___  ____  ___ ________  _   _   _   _ ___   
+ | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
+ | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
+ |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
+ |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
+                                                                                                                                                                                                                                                                                                                                       
+=========================================================
+* Horizon UI - v1.1.0
+=========================================================
+
+* Product Page: https://www.horizon-ui.com/
+* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
+
+* Designed and Coded by Simmmple
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+// Chakra imports
+import { Box } from "@chakra-ui/react";
+import DevelopmentTable from "views/employee/confirmation/components/DevelopmentTable";
+import {
+  columnsDataDevelopment,
+} from "views/admin/dataTables/variables/columnsData";
+import tableDataDevelopment from "views/employee/confirmation/variables/tableDataDevelopment.json";
 import React from "react";
 
-export default function ConfirmationPage({ expenseNumber, status }) {
+export default function Settings() {
+  // Chakra Color Mode
   return (
-    <div className="flex items-center justify-center h-screen bg-white">
-      <div className="border-2 border-black rounded-lg p-8 w-96 text-center shadow-lg">
-        <h1 className="text-3xl font-bold mb-6">Company Name</h1>
-        <p className="text-lg mb-4">Successfully submitted</p>
-        <p className="text-lg mb-4">
-          Your Expense Report number is: <span className="font-bold">{expenseNumber}</span>
-        </p>
-        <p className="text-lg mb-6">You can track the status on this page</p>
-        <p className="text-xl font-bold">Status: <span className="text-gray-800">{status}</span></p>
-      </div>
-    </div>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+       <DevelopmentTable
+          columnsData={columnsDataDevelopment}
+          tableData={tableDataDevelopment}
+        />
+    </Box>
   );
 }
