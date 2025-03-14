@@ -18,6 +18,7 @@ class AuthMiddleware(MiddlewareMixin):
                     raise Exception(decoded_token["error"])
                 request.role = decoded_token["role"]  # Attach role to request
                 request.email = decoded_token["email"]
+                request.userId = decoded_token["userId"]
             except Exception as e:
                 return JsonResponse({"error": str(e)}, status=401)
         else:   

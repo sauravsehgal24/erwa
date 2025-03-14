@@ -22,6 +22,7 @@ def generate_token(user: User):
     payload = {
         'email': user.email,
         'role': user.role,  
+        'userId': user.user_id,  
         'exp': expiration,
         'iat': time.time(),
     }
