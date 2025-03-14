@@ -2,24 +2,6 @@ from django.utils.deprecation import MiddlewareMixin
 from django.http import JsonResponse
 from .role_access_paths import ROLE_PATHS
 
-# from django.urls import get_resolver, URLPattern, URLResolver
-
-# def get_all_urls(urlpatterns, prefix=""):
-#     urls = []
-#     for pattern in urlpatterns:
-#         if isinstance(pattern, URLPattern):  # Regular path
-#             urls.append(prefix + str(pattern.pattern))
-#         elif isinstance(pattern, URLResolver):  # Included path
-#             urls.extend(get_all_urls(pattern.url_patterns, prefix + str(pattern.pattern)))
-#     return urls
-
-# def list_all_urls():
-#     return get_all_urls(get_resolver().url_patterns)
-
-
-
-
-
 class RoleMiddleware(MiddlewareMixin):
     EXCLUDED_PATHS = ["/v1/user/login","/v1/user/register"]
     def process_view(self, request, view_func, view_args, view_kwargs):
