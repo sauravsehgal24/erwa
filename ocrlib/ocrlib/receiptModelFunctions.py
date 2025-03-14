@@ -20,7 +20,7 @@ def init_document_intelligence_client() -> DocumentIntelligenceClient:
 
 def init_blob_container_client():
     
-    os.environ["AZURE_STORAGE_CONNECTION_STRING"] = "BlobEndpoint=https://receiptdocuments.blob.core.windows.net/;QueueEndpoint=https://receiptdocuments.queue.core.windows.net/;FileEndpoint=https://receiptdocuments.file.core.windows.net/;TableEndpoint=https://receiptdocuments.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=b&srt=sco&sp=rwdlaciytfx&se=2025-03-06T08:11:08Z&st=2025-03-06T00:11:08Z&spr=https,http&sig=PyhPvieGtLWYSCRLwOwsO%2FzTszrJrB3s%2B3FvPAPhcSo%3D"
+    os.environ["AZURE_STORAGE_CONNECTION_STRING"] = "BlobEndpoint=https://receiptdocuments.blob.core.windows.net/;QueueEndpoint=https://receiptdocuments.queue.core.windows.net/;FileEndpoint=https://receiptdocuments.file.core.windows.net/;TableEndpoint=https://receiptdocuments.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2025-04-07T08:27:10Z&st=2025-03-14T00:27:10Z&spr=https,http&sig=iNKt92TmGg10Xq68PQHXZTmjmRFWwbD%2FgAhR%2BEbX6u8%3D"
     os.environ["BLOB_CONTAINER_NAME"] = "receiptfiles"
     """
     Initialize and return the Blob Storage container client.
