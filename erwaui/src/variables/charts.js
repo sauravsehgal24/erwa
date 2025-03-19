@@ -1,122 +1,18 @@
-// Daily Traffic Dashboards Default
-
-export const barChartDataDailyTraffic = [
-  {
-    name: "Daily Traffic",
-    data: [20, 30, 40, 20, 45, 50, 30],
-  },
-];
-
-export const barChartOptionsDailyTraffic = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-  },
-  tooltip: {
-    style: {
-      fontSize: "12px",
-      fontFamily: undefined,
-    },
-    onDatasetHover: {
-      style: {
-        fontSize: "12px",
-        fontFamily: undefined,
-      },
-    },
-    theme: "dark",
-  },
-  xaxis: {
-    categories: ["00", "04", "08", "12", "14", "16", "18"],
-    show: false,
-    labels: {
-      show: true,
-      style: {
-        colors: "#A3AED0",
-        fontSize: "14px",
-        fontWeight: "500",
-      },
-    },
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-  },
-  yaxis: {
-    show: false,
-    color: "black",
-    labels: {
-      show: true,
-      style: {
-        colors: "#CBD5E0",
-        fontSize: "14px",
-      },
-    },
-  },
-  grid: {
-    show: false,
-    strokeDashArray: 5,
-    yaxis: {
-      lines: {
-        show: true,
-      },
-    },
-    xaxis: {
-      lines: {
-        show: false,
-      },
-    },
-  },
-  fill: {
-    type: "gradient",
-    gradient: {
-      type: "vertical",
-      shadeIntensity: 1,
-      opacityFrom: 0.7,
-      opacityTo: 0.9,
-      colorStops: [
-        [
-          {
-            offset: 0,
-            color: "#4318FF",
-            opacity: 1,
-          },
-          {
-            offset: 100,
-            color: "rgba(67, 24, 255, 1)",
-            opacity: 0.28,
-          },
-        ],
-      ],
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 10,
-      columnWidth: "40px",
-    },
-  },
-};
 
 // Consumption Users Reports
 
 export const barChartDataConsumption = [
   {
-    name: "PRODUCT A",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+    name: "PENDING",
+    data: [40, 37, 30, 39, 32, 35, 36, 30, 3],
   },
   {
-    name: "PRODUCT B",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+    name: "APPROVED",
+    data: [30, 12, 10, 10, 50, 20, 40, 35, 28],
   },
   {
-    name: "PRODUCT C",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+    name: "DECLINED",
+    data: [10, 5, 8, 9, 2, 4, 3, 7, 9],
   },
 ];
 
@@ -209,7 +105,7 @@ export const barChartOptionsConsumption = {
 };
 
 export const pieChartOptions = {
-  labels: ["Your files", "System", "Empty"],
+  labels: ["Approved", "In-Review", "Declined"],
   colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
   chart: {
     width: "50px",
@@ -253,12 +149,12 @@ export const pieChartData = [63, 25, 12];
 
 export const lineChartDataTotalSpent = [
   {
-    name: "Revenue",
-    data: [50, 64, 48, 66, 49, 68],
+    name: "Approved",
+    data: [150, 180, 98, 38, 150, 260],
   },
   {
-    name: "Profit",
-    data: [30, 40, 24, 46, 20, 46],
+    name: "Declined",
+    data: [30, 40, 24, 40, 20, 80],
   },
 ];
 
