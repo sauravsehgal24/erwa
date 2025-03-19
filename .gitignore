@@ -1,1 +1,9 @@
 erwaui/node_modules/
+erwaapi/app/__pycache__
+erwaapi/app/middleware/__pycache__
+erwaapi/app/migrations/__pycache__
+erwaapi/app/models/__pycache__
+erwaapi/app/util/__pycache__
+erwaapi/app/views/__pycache__
+erwaapi/erwaapi/__pycache__
+erwaapi/settings.ini

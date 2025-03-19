@@ -18,7 +18,6 @@ import {
   Link,
 } from '@chakra-ui/react';
 import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
 import { MdUpload } from "react-icons/md";
 import React, {useState} from 'react';
 import Dropzone from "views/admin/profile/components/Dropzone";
@@ -100,11 +99,11 @@ export default function ExpenseTable(props) {
         />
         
       </Flex>
-      <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="2" width={'80%'} border={'1px solid blue'}/>
+        <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="2" width={'80%'} border={'1px solid blue'}/>
         <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="2" width={'80%'} border={'1px solid blue'}/>
         <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="2" width={'80%'} border={'1px solid blue'}/>
-        <Button colorScheme="blue" onClick={() => alert('Form submitted!')}  width={'80%'}>Submit</Button>
-        <Button colorScheme="red" mt='1' onClick={handleClear} width={'80%'}>Clear</Button>
+          <Button colorScheme="blue" onClick={() => alert('Form submitted!')}  width={'80%'}>Submit</Button>
+          <Button colorScheme="red" mt='1' onClick={handleClear} width={'80%'}>Clear</Button>
     </Card>
           <Card style={{width:"70%"}}>
             <Flex px="25px" mb="30px" justifyContent="space-between" align="center">
@@ -153,36 +152,5 @@ export default function ExpenseTable(props) {
       </Table>
       </Card>
     </Box>
-
-
-
-    //   <Card flexDirection="column" w="100%" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
-    //   <Box px="25px" mb="8px">
-    //     <Input placeholder="Full Name" name="full_name" value={formData.full_name} onChange={handleChange} mb="4" />
-    //     <Input placeholder="Email" name="email" value={formData.email} onChange={handleChange} mb="4" />
-    //     <Input placeholder="Amount" name="amount" value={formData.amount} onChange={handleChange} mb="4" />
-    //     <Input type="file" onChange={handleFileUpload} mb="4" />
-
-    //     <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="4" />
-    //   <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="4" />
-    //   <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="4" />
-        
-    //     <Button colorScheme="blue" onClick={() => alert('Form submitted!')} mr="4">Submit</Button>
-    //     <Button colorScheme="red" onClick={handleClear}>Clear</Button>
-
-    //   </Box>
-    
-
-    //   {/* <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="4" />
-    //   <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="4" />
-    //   <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="4" /> */}
-
-
-    //   {/* <Button colorScheme="blue" onClick={() => alert('Form submitted!')} mr="4">Submit</Button>
-    //   <Button colorScheme="red" onClick={handleClear}>Clear</Button> */}
-
-    // </Card> 
-   
-    
   );
 }

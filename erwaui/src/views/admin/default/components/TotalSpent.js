@@ -86,7 +86,7 @@ export default function TotalSpent(props) {
             textAlign='start'
             fontWeight='700'
             lineHeight='100%'>
-            $37.5K
+            $33,500
           </Text>
           <Flex align='center' mb='20px'>
             <Text

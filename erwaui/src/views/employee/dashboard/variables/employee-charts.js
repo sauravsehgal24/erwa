@@ -230,18 +230,18 @@ export const pieChartOptions = {
   },
 };
 
-export const pieChartData = [1000, 400, 200];
+export const pieChartData = [100, 40, 20];
 
 // Total Spent Default
 
 export const lineChartDataTotalSpent = [
   {
     name: "Expense",
-    data: [120, 330, 0, 0, 10, 450, 130],
+    data: [120, 330, 100, 250, 10, 450, 190],
   },
   {
     name: "Reimbursed",
-    data: [100, 310, 0, 0, 0, 450, 230],
+    data: [100, 280, 10, 20, 0, 150, 30],
   },
 ];
 

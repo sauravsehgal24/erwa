@@ -1,26 +1,32 @@
 [
   {
-    "name":"Horizon UI PRO",
+    "name":"Engineering",
+    "status": "Pending",
+    "date": "18 Apr 2025",
+    "processed": 75.5  
+  },
+  {
+    "name":"Client Support",
+    "status": "Declined",
+    "date": "18 Apr 2024",
+    "processed": 25.5  
+  },
+  {
+    "name":"Customer Success",
+    "status": "In-Review",
+    "date": "20 May 2025",
+    "processed": 90  
+  },
+  {
+    "name":"Finance",
     "status": "Approved",
-    "date": "18 Apr 2022",
-    "progress": 75.5  
+    "date": "12 Jul 2024",
+    "processed": 50.5  
   },
   {
-    "name":"Horizon UI Free",
-    "status": "Disable",
-    "date": "18 Apr 2022",
-    "progress": 25.5  
-  },
-  {
-    "name":"Marketplace",
-    "status": "Error",
-    "date": "20 May 2021",
-    "progress": 90  
-  },
-  {
-    "name":"Weekly Updates",
+    "name":"IT",
     "status": "Approved",
-    "date": "12 Jul 2021",
-    "progress": 50.5  
+    "date": "20 Nov 2024",
+    "processed": 50.5  
   }
 ]

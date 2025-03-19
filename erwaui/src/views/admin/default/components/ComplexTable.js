@@ -45,7 +45,7 @@ export default function ComplexTable(props) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          NAME
+          DEPARTMENT
         </Text>
       ),
       cell: (info) => (
@@ -77,18 +77,18 @@ export default function ComplexTable(props) {
             color={
               info.getValue() === 'Approved'
                 ? 'green.500'
-                : info.getValue() === 'Disable'
+                : info.getValue() === 'Declined'
                 ? 'red.500'
-                : info.getValue() === 'Error'
+                : info.getValue() === 'In-Review'
                 ? 'orange.500'
                 : null
             }
             as={
               info.getValue() === 'Approved'
                 ? MdCheckCircle
-                : info.getValue() === 'Disable'
+                : info.getValue() === 'Declined'
                 ? MdCancel
-                : info.getValue() === 'Error'
+                : info.getValue() === 'In-Review'
                 ? MdOutlineError
                 : null
             }
@@ -117,8 +117,8 @@ export default function ComplexTable(props) {
         </Text>
       ),
     }),
-    columnHelper.accessor('progress', {
-      id: 'progress',
+    columnHelper.accessor('processed', {
+      id: 'processed',
       header: () => (
         <Text
           justifyContent="space-between"
@@ -126,7 +126,7 @@ export default function ComplexTable(props) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          PROGRESS
+          EXPENSES PROCESSED
         </Text>
       ),
       cell: (info) => (
