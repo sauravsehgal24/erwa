@@ -83,8 +83,8 @@ function SignUp() {
   const handleSignUp = async () => {
     const isValid = await trigger(); 
     if (isValid) {
-      const {email, password, confirmPassword} = getValues()
-      const result = await dispatch(loginUser(email,password))
+      const {email, password, confirmPassword, full_name, job} = getValues()
+      const result = await dispatch(loginUser(email,password, "REGISTER", full_name, job ))
       navigate("/main/profile")
       console.log(result)
     } else {
@@ -179,6 +179,66 @@ function SignUp() {
               ms={{ base: "0px", md: "0px" }}
               type='email'
               placeholder='mail@simmmple.com'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            /> 
+            </Flex>
+            <Flex direction='column' textAlign={"left"}
+                w={{ base: "100%", md: "420px" }}
+                maxW='100%'
+                background='transparent'
+                borderRadius='15px'
+                mx={{ base: "auto", lg: "unset" }}
+                me='auto'
+                mb={{ base: "20px", md: "auto" }}>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              Full Name<Text color={brandStars}>*</Text>
+            </FormLabel><p style={{color:"red"}}>{errors.full_name?.message}</p>
+            <Input
+              {...register("full_name")}
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              type='email'
+              placeholder='Samuel Smith'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            /> 
+            </Flex>
+            <Flex direction='column' textAlign={"left"}
+                w={{ base: "100%", md: "420px" }}
+                maxW='100%'
+                background='transparent'
+                borderRadius='15px'
+                mx={{ base: "auto", lg: "unset" }}
+                me='auto'
+                mb={{ base: "20px", md: "auto" }}>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              Job<Text color={brandStars}>*</Text>
+            </FormLabel><p style={{color:"red"}}>{errors.job?.message}</p>
+            <Input
+              {...register("job")}
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              type='email'
+              placeholder='Software Engineer'
               mb='24px'
               fontWeight='500'
               size='lg'

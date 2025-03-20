@@ -9,6 +9,8 @@ const signInSchema = yup.object().shape({
   // Registration Schema
   const signUpSchema = yup.object().shape({
     email: yup.string().email("Invalid email format").required("Email is required"),
+    full_name:yup.string().required("Full Name is required"),
+    job:yup.string().required("Job is required"),
     password: yup
       .string()
       .min(6, "Password must be at least 6 characters")

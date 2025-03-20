@@ -4,6 +4,7 @@ from django.db import models
 class User(models.Model):
     user_id = models.BigAutoField(primary_key=True)  # Auto-incrementing very big int
     full_name = models.CharField(max_length=255, null=True)  # Full name of the user
+    job = models.CharField(max_length=255, null=True)
     email = models.CharField(max_length=255, unique=True)  # Ensure uniqueness
     role = models.CharField(max_length=10, choices=[('Admin', 'Admin'), ('User', 'User')], default='User')
     password = models.CharField(max_length=255)  # Store hashed password

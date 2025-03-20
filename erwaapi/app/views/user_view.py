@@ -14,10 +14,11 @@ import json
 @api_view(['POST'])
 def register(request):
     # data = json.loads(request.body)
-    # print("in user auth", data)
     data = request.data
     email = data.get('email')
     password = data.get('password')
+    full_name = data.get('full_name')
+    job = data.get('job')
     role = data.get('role')
 
     # Check if email is already registered
@@ -30,8 +31,10 @@ def register(request):
     # Create new user
     user = User.objects.create(
         email=email,
+        full_name=full_name,
+        job=job,
         password=hashed_password.decode('utf-8'),  # Save the hashed password
-        role=role
+        role=role,
     ) 
 
     User.save(user)
@@ -44,7 +47,9 @@ def register(request):
         {
             "email": user.email,
             "role": user.role,
-            "access_token": access_token
+            "access_token": access_token,
+            "job": user.job,
+            "full_name":user.full_name
         },
         status=200
     )
@@ -74,6 +79,8 @@ def login(request):
         {
             "email": user.email,
             "role": user.role,
+            "job": user.job,
+            "full_name":user.full_name,
             "access_token": access_token
         },
         status=200

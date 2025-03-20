@@ -39,6 +39,8 @@ const authReducer = (state = initialState, action) => {
           userInfo:{
             email:action.payload.email,
             role:action.payload.role,
+            full_name:action.payload.full_name,
+            job:action.payload.job,
             accessToken:action.payload.access_token,
           }
         };
