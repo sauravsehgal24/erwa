@@ -13,7 +13,7 @@ from ..util.expense_serializer import ExpenseSerializer
 
 #Imports from OCRLIB
 import json
-from ocrlib.receiptModelFunctions import upload_receipt_to_blob, analyze_receipt_image
+from ocrlib.receiptModelFunctions import upload_receipt_to_blob, analyze_receipt_image,testlib
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 
@@ -52,7 +52,11 @@ def upload_and_analyze_receipt(request):
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
+@api_view(['GET'])
+def health_ocrlib(request):
+    return JsonResponse({'message': testlib()}, status=200)
 """
+
 # Define subroutes
 user_patterns = [
     path("get_ocr_json", get_ocr_json, name="get_ocr_json")
@@ -61,4 +65,5 @@ user_patterns = [
 # Define subroutes
 ocr_patterns = [
     path('upload_and_analyze', upload_and_analyze_receipt, name='upload_and_analyze'),
+    path('health', health_ocrlib, name='health_ocrlib')
 ]
