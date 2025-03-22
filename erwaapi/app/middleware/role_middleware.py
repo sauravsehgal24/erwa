@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .role_access_paths import ROLE_PATHS
 
 class RoleMiddleware(MiddlewareMixin):
-    EXCLUDED_PATHS = ["/v1/user/login","/v1/user/register"]
+    EXCLUDED_PATHS = ["/v1/user/login","/v1/user/register","/v1/ocr/health"]
     def process_view(self, request, view_func, view_args, view_kwargs):
         print("in role")
         if request.path in self.EXCLUDED_PATHS:

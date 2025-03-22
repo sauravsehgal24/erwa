@@ -35,4 +35,10 @@ six \
 sniffio \
 sqlparse \
 typing_extensions \
-tzdata
+tzdata \
+requests \
+djangorestframework \
+azure-core \
+azure-documentintelligence \
+azure-storage-blob \ 
+azure-formrecognizer
