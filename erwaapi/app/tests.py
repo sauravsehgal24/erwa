@@ -1,3 +1,4 @@
+"""
 from django.test import TestCase
 
 # Create your tests here.
@@ -22,3 +23,4 @@ except requests.exceptions.RequestException as e:
     print(f"An error occurred: {e}")
 except Exception as e:
     print(f"An error occurred: {e}")
+"""

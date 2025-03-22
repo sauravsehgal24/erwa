@@ -6,39 +6,46 @@ from azure.ai.documentintelligence.models import AnalyzeDocumentRequest
 from azure.storage.blob import BlobServiceClient
 
 def init_document_intelligence_client() -> DocumentIntelligenceClient:
-    os.environ["FORM_RECOGNIZER_ENDPOINT"] = "https://expensereceiptai.cognitiveservices.azure.com"
-    os.environ["FORM_RECOGNIZER_KEY"] = "76764UJw2NrPfiOz5J5iwyo9OKdxKTXF5pdepm5hLuKlQlUIHgVDJQQJ99BBACBsN54XJ3w3AAALACOGSI1H"
+    # os.environ["FORM_RECOGNIZER_ENDPOINT"] = "https://expensereceiptai.cognitiveservices.azure.com"
+    # os.environ["FORM_RECOGNIZER_KEY"] = "76764UJw2NrPfiOz5J5iwyo9OKdxKTXF5pdepm5hLuKlQlUIHgVDJQQJ99BBACBsN54XJ3w3AAALACOGSI1H"
+
+    FORM_RECOGNIZER_ENDPOINT = "https://expensereceiptai.cognitiveservices.azure.com"
+    FORM_RECOGNIZER_KEY = "76764UJw2NrPfiOz5J5iwyo9OKdxKTXF5pdepm5hLuKlQlUIHgVDJQQJ99BBACBsN54XJ3w3AAALACOGSI1H"
+
     """
     
     Initialize and return the Azure Document Intelligence client.
     Expects FORM_RECOGNIZER_ENDPOINT and FORM_RECOGNIZER_KEY in environment variables.
     """
-    endpoint = os.environ.get("FORM_RECOGNIZER_ENDPOINT")
-    key = os.environ.get("FORM_RECOGNIZER_KEY")
-    if not endpoint or not key:
-        raise ValueError("Please set FORM_RECOGNIZER_ENDPOINT and FORM_RECOGNIZER_KEY environment variables.")
-    return DocumentIntelligenceClient(endpoint=endpoint, credential=AzureKeyCredential(key))
+    # endpoint = os.environ.get("FORM_RECOGNIZER_ENDPOINT")
+    # key = os.environ.get("FORM_RECOGNIZER_KEY")
+    # if not endpoint or not key:
+    #     raise ValueError("Please set FORM_RECOGNIZER_ENDPOINT and FORM_RECOGNIZER_KEY environment variables.")
+    return DocumentIntelligenceClient(endpoint=FORM_RECOGNIZER_ENDPOINT, credential=AzureKeyCredential(FORM_RECOGNIZER_KEY))
 
 def init_blob_container_client():
     
-    os.environ["AZURE_STORAGE_CONNECTION_STRING"] = "BlobEndpoint=https://receiptdocuments.blob.core.windows.net/;QueueEndpoint=https://receiptdocuments.queue.core.windows.net/;FileEndpoint=https://receiptdocuments.file.core.windows.net/;TableEndpoint=https://receiptdocuments.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2025-04-07T08:27:10Z&st=2025-03-14T00:27:10Z&spr=https,http&sig=iNKt92TmGg10Xq68PQHXZTmjmRFWwbD%2FgAhR%2BEbX6u8%3D"
-    os.environ["BLOB_CONTAINER_NAME"] = "receiptfiles"
+    # os.environ["AZURE_STORAGE_CONNECTION_STRING"] = "BlobEndpoint=https://receiptdocuments.blob.core.windows.net/;QueueEndpoint=https://receiptdocuments.queue.core.windows.net/;FileEndpoint=https://receiptdocuments.file.core.windows.net/;TableEndpoint=https://receiptdocuments.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2025-04-07T08:27:10Z&st=2025-03-14T00:27:10Z&spr=https,http&sig=iNKt92TmGg10Xq68PQHXZTmjmRFWwbD%2FgAhR%2BEbX6u8%3D"
+    # os.environ["BLOB_CONTAINER_NAME"] = "receiptfiles"
+    AZURE_STORAGE_CONNECTION_STRING = "BlobEndpoint=https://receiptdocuments.blob.core.windows.net/;QueueEndpoint=https://receiptdocuments.queue.core.windows.net/;FileEndpoint=https://receiptdocuments.file.core.windows.net/;TableEndpoint=https://receiptdocuments.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2025-04-07T08:27:10Z&st=2025-03-14T00:27:10Z&spr=https,http&sig=iNKt92TmGg10Xq68PQHXZTmjmRFWwbD%2FgAhR%2BEbX6u8%3D"
+    BLOB_CONTAINER_NAME = "receiptfiles"
+
     """
     Initialize and return the Blob Storage container client.
     Expects AZURE_STORAGE_CONNECTION_STRING and BLOB_CONTAINER_NAME in environment variables.
     """
 
-    blob_conn_str = os.environ.get("AZURE_STORAGE_CONNECTION_STRING")
-    container_name = os.environ.get("BLOB_CONTAINER_NAME")
-    if not blob_conn_str:
-        raise ValueError("Please set AZURE_STORAGE_CONNECTION_STRING environment variable.")
-    if not container_name:
-        raise ValueError("Please set BLOB_CONTAINER_NAME environment variable.")
+    blob_conn_str = AZURE_STORAGE_CONNECTION_STRING #os.environ.get("AZURE_STORAGE_CONNECTION_STRING")
+    container_name = BLOB_CONTAINER_NAME #os.environ.get("BLOB_CONTAINER_NAME")
+    # if not blob_conn_str:
+    #     raise ValueError("Please set AZURE_STORAGE_CONNECTION_STRING environment variable.")
+    # if not container_name:
+    #     raise ValueError("Please set BLOB_CONTAINER_NAME environment variable.")
     
     blob_service_client = BlobServiceClient.from_connection_string(blob_conn_str)
     return blob_service_client.get_container_client(container_name)
 
-def upload_receipt_to_blob(file_path: str =None, blob_name: str = None, 
+def upload_receipt_to_blob(file, blob_name: str = None, 
                            sas_token: str = None) -> str:
     """
     Uploads a receipt image to Azure Blob Storage and returns its URL.
@@ -54,12 +61,12 @@ def upload_receipt_to_blob(file_path: str =None, blob_name: str = None,
     container_client = init_blob_container_client()
     
     # Use the local filename as blob name if not provided
-    if not blob_name:
-        blob_name = os.path.basename(file_path)
+    # if not blob_name:
+    #     blob_name = os.path.basename(file)
     
-    # Upload the file to the blob container (overwrite if exists)
-    with open(file_path, "rb") as data:
-        container_client.upload_blob(name=blob_name, data=data, overwrite=True)
+    # # Upload the file to the blob container (overwrite if exists)
+    # with open(file_path, "rb") as data:
+    container_client.upload_blob(name=blob_name, data=file, overwrite=True)
     
     # Construct the blob URL
     blob_client = container_client.get_blob_client(blob_name)
@@ -186,9 +193,9 @@ def testlib():
     return "Test OCRLIB"
 
 # Example usage:
-if __name__ == "__main__":
+if __name__ == "_main_":
     # Specify the local path to your receipt image.
-    local_receipt_path = "/Users/hthakkar/Downloads/test1.png"
+    local_receipt_path = "D:\\Downloads\\WhatsApp Image 2025-03-22 at 2.10.02 PM (1).jpeg"
     
     # Optionally, if you have a SAS token string (without the leading '?' if you prefer),
     # you can provide it; otherwise, pass None.
