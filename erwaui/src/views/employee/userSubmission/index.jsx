@@ -99,9 +99,9 @@ export default function ExpenseTable(props) {
         />
         
       </Flex>
-        <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="2" width={'80%'} border={'1px solid blue'}/>
-        <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="2" width={'80%'} border={'1px solid blue'}/>
-        <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="2" width={'80%'} border={'1px solid blue'}/>
+        <Input placeholder="Sub-Total" name="sub_total" value={formData.sub_total} onChange={handleChange} mb="2" width={'80%'} border={'1px solid #e2d0f7'}/>
+        <Input placeholder="Taxes" name="taxes" value={formData.taxes} onChange={handleChange} mb="2" width={'80%'} border={'1px solid #e2d0f7'}/>
+        <Input placeholder="Total" name="total" value={formData.total} onChange={handleChange} mb="2" width={'80%'} border={'1px solid #e2d0f7'}/>
           <Button colorScheme="blue" onClick={() => alert('Form submitted!')}  width={'80%'}>Submit</Button>
           <Button colorScheme="red" mt='1' onClick={handleClear} width={'80%'}>Clear</Button>
     </Card>

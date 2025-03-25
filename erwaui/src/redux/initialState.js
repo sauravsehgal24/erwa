@@ -17,6 +17,8 @@ const initialState = {
         role:null,
         email:null,
         accessToken:null,
+        full_name:null,
+        job:null
     }
 };
 
