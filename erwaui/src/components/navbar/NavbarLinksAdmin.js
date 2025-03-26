@@ -210,7 +210,7 @@ export default function HeaderLinks(props) {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, {user.full_name.split(" ")[0]}
+              👋&nbsp; Hey, {user?.full_name?.split(" ")[0]}
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
