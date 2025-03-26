@@ -1,179 +1,141 @@
-import os
 import json
-
-# Import necessary modules from Azure SDKs
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.documentintelligence import DocumentIntelligenceClient
 from azure.ai.documentintelligence.models import AnalyzeDocumentRequest
 from azure.storage.blob import BlobServiceClient
 
-# ================================
-# Form Recognizer Setup and Test
-# ================================
+# Store credentials as variables (Consider loading from a config file instead)
+AZURE_CREDENTIALS = {
+    "FORM_RECOGNIZER_ENDPOINT": "https://expensereceiptai.cognitiveservices.azure.com",
+    "FORM_RECOGNIZER_KEY": "76764UJw2NrPfiOz5J5iwyo9OKdxKTXF5pdepm5hLuKlQlUIHgVDJQQJ99BBACBsN54XJ3w3AAALACOGSI1H",
+    "AZURE_STORAGE_CONNECTION_STRING": "BlobEndpoint=https://receiptdocuments.blob.core.windows.net/;QueueEndpoint=https://receiptdocuments.queue.core.windows.net/;FileEndpoint=https://receiptdocuments.file.core.windows.net/;TableEndpoint=https://receiptdocuments.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2025-04-07T08:27:10Z&st=2025-03-14T00:27:10Z&spr=https,http&sig=iNKt92TmGg10Xq68PQHXZTmjmRFWwbD%2FgAhR%2BEbX6u8%3D",
+    "BLOB_CONTAINER_NAME": "receiptfiles"
+}
 
-# Hard code Form Recognizer credentials (secure these in production)
-os.environ["FORM_RECOGNIZER_ENDPOINT"] = "https://expensereceiptai.cognitiveservices.azure.com"
-os.environ["FORM_RECOGNIZER_KEY"] = "2I2ZXVwiW1jZgqzAl6NEMZsPKpaLHocgwAQnhOlKONm4tYoNxWxQJQQJ99BBACBsN54XJ3w3AAALACOGe29c"
+def init_document_intelligence_client() -> DocumentIntelligenceClient:
+    """
+    Initialize and return the Azure Document Intelligence client.
+    """
+    endpoint = AZURE_CREDENTIALS["FORM_RECOGNIZER_ENDPOINT"]
+    key = AZURE_CREDENTIALS["FORM_RECOGNIZER_KEY"]
+    
+    if not endpoint or not key:
+        raise ValueError("Document Intelligence credentials are missing.")
+    
+    return DocumentIntelligenceClient(endpoint=endpoint, credential=AzureKeyCredential(key))
 
-# Retrieve the endpoint and key
-ENDPOINT = os.environ.get("FORM_RECOGNIZER_ENDPOINT")
-KEY = os.environ.get("FORM_RECOGNIZER_KEY")
+def init_blob_container_client():
+    """
+    Initialize and return the Blob Storage container client.
+    """
+    blob_conn_str = AZURE_CREDENTIALS["AZURE_STORAGE_CONNECTION_STRING"]
+    container_name = AZURE_CREDENTIALS["BLOB_CONTAINER_NAME"]
 
-print(f"Form Recognizer Endpoint: {ENDPOINT}")
-print(f"Form Recognizer Key: {KEY}")
-
-if not ENDPOINT or not KEY:
-    raise ValueError("ERROR: FORM_RECOGNIZER_ENDPOINT and FORM_RECOGNIZER_KEY must be set!")
-if not isinstance(KEY, str):
-    raise TypeError("ERROR: The FORM_RECOGNIZER_KEY must be a string.")
-
-try:
-    document_intelligence_client = DocumentIntelligenceClient(
-        endpoint=ENDPOINT, credential=AzureKeyCredential(KEY)
-    )
-    print("Azure Form Recognizer client successfully created.")
-except Exception as e:
-    print("Failed to create Azure Form Recognizer client:")
-    print(e)
-    exit(1)
-
-# ================================
-# Blob Storage Setup and Test
-# ================================
-
-# Hard code Blob Storage connection details and SAS token for demonstration purposes
-os.environ["AZURE_STORAGE_CONNECTION_STRING"] = "BlobEndpoint=https://receiptdocuments.blob.core.windows.net/;QueueEndpoint=https://receiptdocuments.queue.core.windows.net/;FileEndpoint=https://receiptdocuments.file.core.windows.net/;TableEndpoint=https://receiptdocuments.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=c&sp=rwdlacupiytfx&se=2025-03-01T02:14:46Z&st=2025-02-28T18:14:46Z&spr=https,http&sig=72YqPS4G9bPL%2BsoZTjbn1LnjZmDa04lYlCKBoCqSLYU%3D"
-os.environ["BLOB_CONTAINER_NAME"] = "receiptfiles"
-
-# Retrieve Blob Storage connection information
-blob_conn_str = os.environ.get("AZURE_STORAGE_CONNECTION_STRING")
-container_name = os.environ.get("BLOB_CONTAINER_NAME")
-
-if not blob_conn_str:
-    raise ValueError("ERROR: AZURE_STORAGE_CONNECTION_STRING must be set!")
-if not container_name:
-    raise ValueError("ERROR: BLOB_CONTAINER_NAME must be set!")
-
-try:
+    if not blob_conn_str:
+        raise ValueError("Azure Storage connection string is missing.")
+    if not container_name:
+        raise ValueError("Blob container name is missing.")
+    
     blob_service_client = BlobServiceClient.from_connection_string(blob_conn_str)
-    container_client = blob_service_client.get_container_client(container_name)
-    print(f"Connected to Blob Storage container: {container_name}")
-    blob_list = list(container_client.list_blobs())
-    print(f"Blobs in container '{container_name}': {[blob.name for blob in blob_list]}")
-except Exception as e:
-    print("Failed to connect to Azure Blob Storage container:")
-    print(e)
-    exit(1)
+    return blob_service_client.get_container_client(container_name)
 
-# Hard-code the SAS token generated via the Azure Portal
-sas_token = "https://receiptdocuments.blob.core.windows.net/receiptfiles/test.png?sp=r&st=2025-02-28T18:32:41Z&se=2025-03-01T02:32:41Z&sv=2022-11-02&sr=b&sig=sEVV5OXbsepFAjmr0Z%2B9RaEneEziqiIWrKUrq3LYF7E%3D"
+def upload_receipt_to_blob(file_path: str, blob_name: str = None, sas_token: str = None) -> str:
+    """
+    Uploads a receipt image to Azure Blob Storage and returns its URL.
+    """
+    container_client = init_blob_container_client()
 
-# Define the sample blob file name (ensure this file exists in your container)
-sample_blob_name = "test.PNG"
+    if not blob_name:
+        blob_name = file_path.split("/")[-1]
 
-# Construct the blob URL with the SAS token appended
-blob_url = "https://receiptdocuments.blob.core.windows.net/receiptfiles/test.png?sp=r&st=2025-02-28T18:32:41Z&se=2025-03-01T02:32:41Z&sv=2022-11-02&sr=b&sig=sEVV5OXbsepFAjmr0Z%2B9RaEneEziqiIWrKUrq3LYF7E%3D"
-print(f"Blob URL with SAS: {blob_url}")
+    with open(file_path, "rb") as data:
+        container_client.upload_blob(name=blob_name, data=data, overwrite=True)
 
-# =====================================
-# Analyze a Sample File from Blob Storage
-# =====================================
+    blob_client = container_client.get_blob_client(blob_name)
+    blob_url = blob_client.url
 
-try:
-    poller = document_intelligence_client.begin_analyze_document(
-        "prebuilt-receipt", AnalyzeDocumentRequest(url_source=blob_url)
-    )
-    receipts = poller.result()
-    print("Document analysis from Blob Storage succeeded!")
-except Exception as e:
-    print("Failed to analyze document from Blob Storage:")
-    print(e)
-    exit(1)
+    if sas_token:
+        blob_url += '?' + sas_token.lstrip('?')
 
-# ============================
-# Build JSON Output from Analysis
-# ============================
+    return blob_url
 
-output = []
+def analyze_receipt_image(blob_url: str) -> list:
+    """
+    Uses the Azure Document Intelligence prebuilt receipt model to analyze a receipt image given its URL.
+    """
+    client = init_document_intelligence_client()
 
-for idx, receipt in enumerate(receipts.documents):
-    receipt_data = {
-        "receipt_index": idx + 1,
-        "doc_type": receipt.doc_type or None
-    }
+    try:
+        poller = client.begin_analyze_document(
+            "prebuilt-receipt", AnalyzeDocumentRequest(url_source=blob_url)
+        )
+        receipts = poller.result()
+    except Exception as e:
+        raise Exception("Document analysis failed: " + str(e))
 
-    merchant_name = receipt.fields.get("MerchantName")
-    if merchant_name:
-        receipt_data["merchant_name"] = {
-            "value": merchant_name.value_string,
-            "confidence": merchant_name.confidence
+    output = []
+    for idx, receipt in enumerate(receipts.documents):
+        receipt_data = {
+            "receipt_index": idx + 1,
+            "doc_type": receipt.doc_type or None
         }
 
-    transaction_date = receipt.fields.get("TransactionDate")
-    if transaction_date:
-        receipt_data["transaction_date"] = {
-            "value": str(transaction_date.value_date),
-            "confidence": transaction_date.confidence
-        }
+        # Extract merchant name
+        merchant_name = receipt.fields.get("MerchantName")
+        if merchant_name:
+            receipt_data["merchant_name"] = {
+                "value": merchant_name.value_string,
+                "confidence": merchant_name.confidence
+            }
 
-    items_field = receipt.fields.get("Items")
-    if items_field:
-        items = []
-        for item_idx, item in enumerate(items_field.value_array):
-            item_data = {"item_index": item_idx + 1}
-            item_description = item.value_object.get("Description")
-            if item_description:
-                item_data["description"] = {
-                    "value": item_description.value_string,
-                    "confidence": item_description.confidence
+        # Extract transaction date
+        transaction_date = receipt.fields.get("TransactionDate")
+        if transaction_date:
+            receipt_data["transaction_date"] = {
+                "value": str(transaction_date.value_date),
+                "confidence": transaction_date.confidence
+            }
+
+        # Extract items
+        items_field = receipt.fields.get("Items")
+        if items_field:
+            items = []
+            for item_idx, item in enumerate(items_field.value_array):
+                item_data = {
+                    "item_index": item_idx + 1,
+                    "description": item.value_object.get("Description", {}).get("value_string"),
+                    "quantity": item.value_object.get("Quantity", {}).get("value_number"),
+                    "price": item.value_object.get("Price", {}).get("value_currency", {}).get("amount"),
+                    "total_price": item.value_object.get("TotalPrice", {}).get("value_currency", {}).get("amount"),
+                    "confidence": {
+                        "description": item.value_object.get("Description", {}).get("confidence"),
+                        "quantity": item.value_object.get("Quantity", {}).get("confidence"),
+                        "price": item.value_object.get("Price", {}).get("confidence"),
+                        "total_price": item.value_object.get("TotalPrice", {}).get("confidence")
+                    }
                 }
-            item_quantity = item.value_object.get("Quantity")
-            if item_quantity:
-                item_data["quantity"] = {
-                    "value": item_quantity.value_number,
-                    "confidence": item_quantity.confidence
-                }
-            item_price = item.value_object.get("Price")
-            if item_price:
-                item_data["price"] = {
-                    "value": item_price.value_currency.amount,
-                    "confidence": item_price.confidence
-                }
-            item_total_price = item.value_object.get("TotalPrice")
-            if item_total_price:
-                item_data["total_price"] = {
-                    "value": item_total_price.value_currency.amount,
-                    "confidence": item_total_price.confidence
-                }
-            items.append(item_data)
-        receipt_data["items"] = items
+                items.append(item_data)
+            receipt_data["items"] = items
 
-    subtotal = receipt.fields.get("Subtotal")
-    if subtotal:
-        receipt_data["subtotal"] = {
-            "value": subtotal.value_currency.amount,
-            "confidence": subtotal.confidence
-        }
-    tax = receipt.fields.get("TotalTax")
-    if tax:
-        receipt_data["tax"] = {
-            "value": tax.value_currency.amount,
-            "confidence": tax.confidence
-        }
-    tip = receipt.fields.get("Tip")
-    if tip:
-        receipt_data["tip"] = {
-            "value": tip.value_currency.amount,
-            "confidence": tip.confidence
-        }
-    total = receipt.fields.get("Total")
-    if total:
-        receipt_data["total"] = {
-            "value": total.value_currency.amount,
-            "confidence": total.confidence
-        }
+        output.append(receipt_data)
 
-    output.append(receipt_data)
+    return output
 
-# Print the final JSON output from the analyzed receipt
-print(json.dumps(output, indent=2))
+def testlib():
+    return "Test OCRLIB"
+
+# Example usage:
+if __name__ == "__main__":
+    local_receipt_path = "/Users/hthakkar/Downloads/test1.png"
+    sas_token = None
+
+    try:
+        uploaded_blob_url = upload_receipt_to_blob(local_receipt_path, sas_token=sas_token)
+        print(f"Uploaded blob URL: {uploaded_blob_url}")
+
+        analysis_output = analyze_receipt_image(uploaded_blob_url)
+        print("Analysis JSON Output:")
+        print(json.dumps(analysis_output, indent=2))
+    except Exception as e:
+        print("An error occurred:")
+        print(e)

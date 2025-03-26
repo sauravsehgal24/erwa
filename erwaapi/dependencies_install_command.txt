@@ -39,6 +39,6 @@ tzdata \
 requests \
 djangorestframework \
 azure-core \
-azure-documentintelligence \
+azure-ai-documentintelligence \
 azure-storage-blob \ 
-azure-formrecognizer
+azure-ai-formrecognizer

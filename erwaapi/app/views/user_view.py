@@ -74,6 +74,8 @@ def login(request):
     # Create JWT Access Token
     access_token = generate_token(user)
 
+    print(user.full_name)
+
     # Return the response with the access token
     return JsonResponse(
         {
@@ -109,6 +111,7 @@ def get_user_by_id(request):
             "full_name": user.full_name,
             "role": user.role,
             "active": user.active,
+            "job":user.job,
             "created_date": user.created_date,
             "updated_date": user.updated_date
         },
@@ -141,8 +144,14 @@ def get_user_by_email(request):
         else:
              return JsonResponse(
                 {
-                    "email": user.email,
-                    "role": user.role,
+                    "user_id": user.user_id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "role": user.role,
+            "active": user.active,
+            "job":user.job,
+            "created_date": user.created_date,
+            "updated_date": user.updated_date
                 },
                 status=200
             )

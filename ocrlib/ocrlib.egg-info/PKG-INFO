@@ -1,9 +1,7 @@
-Metadata-Version: 2.4
+Metadata-Version: 2.1
 Name: ocrlib
 Version: 0.1
 Summary: OCR utility library
 Home-page: 
 Author: Saurav Sehgal
 Author-email: 
-Dynamic: author
-Dynamic: summary

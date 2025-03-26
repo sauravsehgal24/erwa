@@ -36,8 +36,9 @@ def upload_and_analyze_receipt(request):
         if request.FILES:
             receipt_file = request.FILES['receipt']  # Assuming the file is sent with key 'receipt'
             try:
+                file = receipt_file.read()
                 # Upload to Azure Blob Storage
-                blob_url = upload_receipt_to_blob(file_path=None, blob_name=receipt_file.name, sas_token=None)
+                blob_url = upload_receipt_to_blob(file=file, blob_name=receipt_file.name, sas_token=None)
 
                 # Analyze using Azure Document Intelligence
                 analysis_result = analyze_receipt_image(blob_url)
@@ -54,6 +55,7 @@ def upload_and_analyze_receipt(request):
 
 @api_view(['GET'])
 def health_ocrlib(request):
+    print("in ocr health")
     return JsonResponse({'message': testlib()}, status=200)
 """
 
