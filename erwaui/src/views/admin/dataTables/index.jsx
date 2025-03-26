@@ -23,20 +23,31 @@
 // Chakra imports
 import { Box } from "@chakra-ui/react";
 import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
-import {
-  columnsDataDevelopment,
-} from "views/admin/dataTables/variables/columnsData";
-import tableDataDevelopment from "views/admin/dataTables/variables/tableDataDevelopment.json";
-import React from "react";
+import { columnsDataDevelopment } from "views/admin/dataTables/variables/columnsData";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
 
-export default function Settings() {
-  // Chakra Color Mode
+export default function AdminExpenses() {
+  const [tableData, setTableData] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios.get("/v1/admin/get_expenses")
+      .then(res => {
+        setTableData(res.data);
+        dispatch(renderSuccessMessage("Admin expenses loaded successfully"));
+      })
+      .catch(err => {
+        console.error(err);
+        dispatch(renderErrMessage("Error fetching admin expenses"));
+      });
+  }, [dispatch]);
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <DevelopmentTable
-          columnsData={columnsDataDevelopment}
-          tableData={tableDataDevelopment}
-        />
+      <DevelopmentTable columnsData={columnsDataDevelopment} tableData={tableData} />
     </Box>
   );
 }

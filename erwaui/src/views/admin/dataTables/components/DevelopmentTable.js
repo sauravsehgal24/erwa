@@ -17,6 +17,7 @@ import {
   Select,
   Button,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import {
   createColumnHelper,
   flexRender,
@@ -24,11 +25,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-// Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
-// Assets
+import { useDispatch } from 'react-redux';
+import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
 import { MdCancel, MdCheckCircle, MdOutlineError, MdHelpOutline } from 'react-icons/md';
 
 const columnHelper = createColumnHelper();
@@ -36,6 +37,7 @@ const columnHelper = createColumnHelper();
 export default function ExpenseTable({ tableData, setTableData }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  const dispatch = useDispatch();
 
   const [editingRow, setEditingRow] = React.useState(null);
   const [tempStatus, setTempStatus] = React.useState({});
@@ -45,21 +47,25 @@ export default function ExpenseTable({ tableData, setTableData }) {
     setTempStatus((prev) => ({ ...prev, [rowIndex]: newStatus }));
   };
 
-  const handleEditClick = (rowIndex) => {
-    setEditingRow(rowIndex);
-    setTempStatus((prev) => ({ ...prev, [rowIndex]: tableData[rowIndex].status }));
-  };
+  const handleSaveClick = async (rowIndex) => {
+    const expenseId = tableData[rowIndex].expense_id;
+    const newStatus = tempStatus[rowIndex];
 
-  const handleSaveClick = (rowIndex) => {
-    const updatedData = [...tableData];
-    updatedData[rowIndex].status = tempStatus[rowIndex];
-    setTableData(updatedData);
-    setEditingRow(null);
-  };
-
-  const handleDeleteClick = (rowIndex) => {
-    const updatedData = tableData.filter((_, index) => index !== rowIndex);
-    setTableData(updatedData);
+    try {
+      await axios.post('/v1/admin/update_expense_status', {
+        expense_id: expenseId,
+        status: newStatus,
+      });
+      
+      const updatedData = [...tableData];
+      updatedData[rowIndex].status = newStatus;
+      setTableData(updatedData);
+      setEditingRow(null);
+      dispatch(renderSuccessMessage('Expense status updated successfully'));
+    } catch (error) {
+      console.error(error);
+      dispatch(renderErrMessage('Error updating expense status'));
+    }
   };
 
   const columns = [
@@ -68,53 +74,11 @@ export default function ExpenseTable({ tableData, setTableData }) {
       header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Expense ID</Text>,
       cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
     }),
-    columnHelper.accessor('full_name', {
-      id: 'full_name',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Full Name</Text>,
-      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
-    }),
-    columnHelper.accessor('email', {
-      id: 'email',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Email</Text>,
-      cell: (info) => <Text color={textColor} fontSize="sm">{info.getValue()}</Text>,
-    }),
-    columnHelper.accessor('amount', {
-      id: 'amount',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Amount ($)</Text>,
-      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">${info.getValue()}</Text>,
-    }),
-    columnHelper.accessor('file_url', {
-      id: 'file_url',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Receipt</Text>,
-      cell: (info) => <Link href={info.getValue()} color="blue.500" isExternal>View</Link>,
-    }),
     columnHelper.accessor('status', {
       id: 'status',
-      header: () => (
-        <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-          Status
-        </Text>
-      ),
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Status</Text>,
       cell: (info) => {
         const rowIndex = info.row.index;
-        const statusValue = info.getValue();
-        const statusIcon =
-          statusValue === 'Approved'
-            ? MdCheckCircle
-            : statusValue === 'Declined'
-            ? MdCancel
-            : statusValue === 'In-Review'
-            ? MdOutlineError
-            : MdHelpOutline;
-        const statusColor =
-          statusValue === 'Approved'
-            ? 'green.500'
-            : statusValue === 'Declined'
-            ? 'red.500'
-            : statusValue === 'In-Review'
-            ? 'orange.500'
-            : 'gray.500';
-    
         return editingRow === rowIndex ? (
           <Select
             value={tempStatus[rowIndex] || tableData[rowIndex].status}
@@ -125,12 +89,7 @@ export default function ExpenseTable({ tableData, setTableData }) {
             ))}
           </Select>
         ) : (
-          <Flex align="center">
-            <Icon w="24px" h="24px" me="5px" color={statusColor} as={statusIcon} />
-            <Text color={textColor} fontSize="sm" fontWeight="700">
-              {statusValue}
-            </Text>
-          </Flex>
+          <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>
         );
       },
     }),
@@ -146,13 +105,10 @@ export default function ExpenseTable({ tableData, setTableData }) {
                 Save
               </Button>
             ) : (
-              <Button size="sm" colorScheme="blue" onClick={() => handleEditClick(rowIndex)}>
+              <Button size="sm" colorScheme="blue" onClick={() => setEditingRow(rowIndex)}>
                 Edit
               </Button>
             )}
-            <Button size="sm" colorScheme="red" onClick={() => handleDeleteClick(rowIndex)}>
-              Delete
-            </Button>
           </Flex>
         );
       },

@@ -55,11 +55,6 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/asyncActions/authAction";
 import { renderSuccessMessage } from "../../../redux/actions/messageAction";
 function SignIn(props) {
-
-  // useEffect(()=>{
-
-  // },[props.action])
-
   // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";

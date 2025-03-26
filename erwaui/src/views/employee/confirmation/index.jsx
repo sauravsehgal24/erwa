@@ -21,22 +21,50 @@
 */
 
 // Chakra imports
+// import { Box } from "@chakra-ui/react";
+// import DevelopmentTable from "views/employee/confirmation/components/DevelopmentTable";
+// import {
+//   columnsDataDevelopment,
+// } from "views/admin/dataTables/variables/columnsData";
+// import tableDataDevelopment from "views/employee/confirmation/variables/tableDataDevelopment.json";
+// import React from "react";
+// import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
+
 import { Box } from "@chakra-ui/react";
-import DevelopmentTable from "views/employee/confirmation/components/DevelopmentTable";
-import {
-  columnsDataDevelopment,
-} from "views/admin/dataTables/variables/columnsData";
-import tableDataDevelopment from "views/employee/confirmation/variables/tableDataDevelopment.json";
-import React from "react";
+import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
+import { columnsDataDevelopment } from "views/admin/dataTables/variables/columnsData";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
+
 
 export default function Settings() {
   // Chakra Color Mode
+  const [tableData, setTableData] = useState([]);
+  const user = useSelector((state) => state.auth.user); // Assuming user object is stored in Redux state
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user || !user.user_id) {
+      dispatch(renderErrMessage("Unauthorized: No user ID found"));
+      return;
+    }
+
+    axios.get(`/v1/user/get_expenses_by_user?user_id=${user.user_id}`)
+      .then(res => {
+        setTableData(res.data);
+        dispatch(renderSuccessMessage("Expenses loaded successfully"));
+      })
+      .catch(err => {
+        console.error(err);
+        dispatch(renderErrMessage("Error fetching expenses"));
+      });
+  }, [user, dispatch]);
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-       <DevelopmentTable
-          columnsData={columnsDataDevelopment}
-          tableData={tableDataDevelopment}
-        />
+      <DevelopmentTable columnsData={columnsDataDevelopment} tableData={tableData} />
     </Box>
   );
 }
