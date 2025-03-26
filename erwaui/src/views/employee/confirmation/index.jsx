@@ -21,15 +21,6 @@
 */
 
 // Chakra imports
-// import { Box } from "@chakra-ui/react";
-// import DevelopmentTable from "views/employee/confirmation/components/DevelopmentTable";
-// import {
-//   columnsDataDevelopment,
-// } from "views/admin/dataTables/variables/columnsData";
-// import tableDataDevelopment from "views/employee/confirmation/variables/tableDataDevelopment.json";
-// import React from "react";
-// import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
-
 import { Box } from "@chakra-ui/react";
 import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
 import { columnsDataDevelopment } from "views/admin/dataTables/variables/columnsData";
