@@ -193,7 +193,7 @@ def testlib():
     return "Test OCRLIB"
 
 # Example usage:
-if _name_ == "_main_":
+if __name__ == "_main_":
     # Specify the local path to your receipt image.
     local_receipt_path = "D:\\Downloads\\WhatsApp Image 2025-03-22 at 2.10.02 PM (1).jpeg"
     

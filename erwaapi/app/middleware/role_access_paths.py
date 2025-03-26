@@ -15,5 +15,6 @@ ROLE_PATHS = {
             "/v1/user/get_expenses_by_user",
             "/v1/user/get_user_by_email",
             "/v1/user/submit_expense",
+            "/v1/ocr/upload_and_analyze",
         ],   # Paths only Employee can access
     }
