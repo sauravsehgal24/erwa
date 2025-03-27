@@ -34,7 +34,7 @@ import { MdCancel, MdCheckCircle, MdOutlineError, MdHelpOutline } from 'react-ic
 
 const columnHelper = createColumnHelper();
 
-export default function ExpenseTable({ tableData, setTableData }) {
+export default function ExpenseTable({ tableData, set_tableData }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ export default function ExpenseTable({ tableData, setTableData }) {
       
       const updatedData = [...tableData];
       updatedData[rowIndex].status = newStatus;
-      setTableData(updatedData);
+      set_tableData(updatedData);
       setEditingRow(null);
       dispatch(renderSuccessMessage('Expense status updated successfully'));
     } catch (error) {

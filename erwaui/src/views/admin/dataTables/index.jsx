@@ -47,7 +47,7 @@ export default function AdminExpenses() {
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <DevelopmentTable  tableData={tableData} />
+      <DevelopmentTable tableData={tableData} set_tableData={setTableData} />
     </Box>
   );
 }
