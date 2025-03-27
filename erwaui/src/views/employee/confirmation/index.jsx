@@ -27,7 +27,7 @@ import { columnsDataDevelopment } from "views/admin/dataTables/variables/columns
 import React, { useEffect, useState } from "react";
 import axios from '../../../util/api';
 import { useSelector, useDispatch } from "react-redux";
-import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
+import { renderSuccessMessage, renderErrMessage, renderWarnMessage } from '../../../redux/actions/messageAction';
 
 
 export default function Settings() {
@@ -45,8 +45,10 @@ export default function Settings() {
     axios.get(`/user/get_expenses_by_user?email=${user.email}`)
       .then(res => {
         setTableData(res.data);
-        console.log(res.data)
-        dispatch(renderSuccessMessage("Expenses loaded successfully"));
+        if(res.data.length > 0)
+          dispatch(renderSuccessMessage("Expenses loaded successfully"));
+        else
+          dispatch(renderWarnMessage("No Expense data available to load"))
       })
       .catch(err => {
         console.error(err);

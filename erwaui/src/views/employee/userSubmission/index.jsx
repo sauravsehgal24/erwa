@@ -54,6 +54,31 @@ export default function ExpenseTable(props) {
 
   const [uploadedFile, setUploadedFile] = useState();
 
+  const handleSubmission = () =>{
+    if(receiptData && (amounts.sub_total || amounts.total)){
+      const data = {
+        user_id: user.user_id,
+        email: user.email,
+        full_name: user.full_name,
+        file_url:"",
+        amount: amounts.total ? amounts.total : amounts.sub_total,
+        ocr_json: JSON.stringify(receiptData)
+      }
+      console.log(data)
+      api.post("/user/submit_expense", data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }})
+      .then(res=>{
+        dispatch(renderSuccessMessage("Expense Submitted!"))
+      }).catch(err=>{
+        dispatch(renderErrMessage("Internal Error Submitting!"))
+      })
+      
+    }else{
+      dispatch(renderErrMessage("Receipt Data not entered correctly!"))
+    }
+  }
   const handleFileUpload = () => {
     if (uploadedFile && uploadedFile.name) {
       setReceiptData([])
@@ -140,7 +165,7 @@ export default function ExpenseTable(props) {
             <Input type="number" placeholder="Sub-Total" name="sub_total" value={amounts.sub_total} onChange={handleAmountChange} mb="2" width={'80%'} border={'1px solid #e2d0f7'}/>
             <Input type="number" placeholder="Taxes" name="taxes" value={amounts.taxes} onChange={handleAmountChange} mb="2" width={'80%'} border={'1px solid #e2d0f7'}/>
             <Input type="number" placeholder="Total" name="total" value={amounts.total} onChange={handleAmountChange} mb="2" width={'80%'} border={'1px solid #e2d0f7'}/>
-            <Button colorScheme="blue" onClick={() => alert('Form submitted!')}  width={'80%'} borderRadius={7}>Submit</Button>
+            <Button colorScheme="blue" onClick={() => handleSubmission()}  width={'80%'} borderRadius={7}>Submit</Button>
         </Card>
           <Card style={{width:"70%"}} overflow={'scroll'}>
             <Flex px="25px" mb="30px" justifyContent="space-between" align="center">

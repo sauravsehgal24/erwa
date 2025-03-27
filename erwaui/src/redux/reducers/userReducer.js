@@ -42,6 +42,7 @@ const authReducer = (state = initialState, action) => {
             full_name:action.payload.full_name,
             job:action.payload.job,
             accessToken:action.payload.access_token,
+            user_id:action.payload.user_id
           }
         };
   

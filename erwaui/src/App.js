@@ -14,6 +14,7 @@ import api from 'util/api';
 import { loginSuccess } from './redux/actions/userActions';
 import { useNavigate } from "react-router-dom";
 import MessagePopUp from 'components/message/MessagePopUp';
+import ReceiptViewPopup from 'views/employee/receipt_view/ReceiptViewPopup';
 
 export default function Main() {
   const user = useSelector((state) => state.user.userInfo);
@@ -52,6 +53,7 @@ export default function Main() {
         <Route path="/" element={!user.email ? <Navigate to="/auth/sign-in" replace />: <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />} />
       </Routes>
       <MessagePopUp />
+      <ReceiptViewPopup />
     </ChakraProvider>
   );
 }

@@ -49,6 +49,7 @@ def register(request):
             "role": user.role,
             "access_token": access_token,
             "job": user.job,
+            "user_id":user.user_id,
             "full_name":user.full_name
         },
         status=200
@@ -82,6 +83,7 @@ def login(request):
             "email": user.email,
             "role": user.role,
             "job": user.job,
+            "user_id":user.user_id,
             "full_name":user.full_name,
             "access_token": access_token
         },
@@ -166,10 +168,9 @@ def submit_expense(request):
     email = data.get("email")
     amount = data.get("amount")
     file_url = data.get("file_url")
+    ocr_json = data.get("ocr_json")
 
-    # Validate required fields
-    if not all([user_id, full_name, email, amount, file_url]):
-        return JsonResponse({"message": "All fields are required"}, status=400)
+    print(data)
 
     # Check if user exists
     user = User.objects.filter(user_id=user_id).first()
@@ -183,7 +184,7 @@ def submit_expense(request):
         email=email,
         amount=amount,
         file_url=file_url,
-        ocr_json="{}",  # Set OCR JSON as empty
+        ocr_json=ocr_json, 
         approved_by=None,  # Ensure approved_by is NULL
         status="Pending"  # Always set status to "Pending"
     )
