@@ -17,7 +17,7 @@ import {
   Select,
   Button,
 } from '@chakra-ui/react';
-import axios from 'axios';
+import axios from '../../../../util/api';
 import {
   createColumnHelper,
   flexRender,
@@ -29,7 +29,7 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
+import { renderSuccessMessage, renderErrMessage } from '../../../../redux/actions/messageAction';
 import { MdCancel, MdCheckCircle, MdOutlineError, MdHelpOutline } from 'react-icons/md';
 
 const columnHelper = createColumnHelper();
@@ -52,7 +52,7 @@ export default function ExpenseTable({ tableData, setTableData }) {
     const newStatus = tempStatus[rowIndex];
 
     try {
-      await axios.post('/v1/admin/update_expense_status', {
+      await axios.post('/admin/update_expense_status', {
         expense_id: expenseId,
         status: newStatus,
       });
@@ -74,14 +74,58 @@ export default function ExpenseTable({ tableData, setTableData }) {
       header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Expense ID</Text>,
       cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
     }),
+    columnHelper.accessor('full_name', {
+      id: 'full_name',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Full Name</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>,
+    }),
+    columnHelper.accessor('email', {
+      id: 'email',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Email</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{info.getValue()}</Text>,
+    }),
+    columnHelper.accessor('amount', {
+      id: 'amount',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Amount ($)</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">${info.getValue()}</Text>,
+    }),
+    columnHelper.accessor('file_url', {
+      id: 'file_url',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Receipt</Text>,
+      cell: (info) => <Link href={info.getValue()} color="blue.500" isExternal>View</Link>,
+    }),
+    columnHelper.accessor('submitted_date', {
+      id: 'submitted_date',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Submitted Date</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{new Date(info.getValue()).toLocaleDateString()}</Text>,
+    }),
+    columnHelper.accessor('updated_date', {
+      id: 'updated_date',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Updated Date</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{new Date(info.getValue()).toLocaleDateString()}</Text>,
+    }),
     columnHelper.accessor('status', {
       id: 'status',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Status</Text>,
+      header: () => 
+        <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+          Status
+        </Text>,
       cell: (info) => {
         const rowIndex = info.row.index;
+        const currentStatus = tempStatus[rowIndex] || tableData[rowIndex].status;
+    
+        const statusIcons = {
+          Approved: { icon: MdCheckCircle, color: 'green.500' },
+          Declined: { icon: MdCancel, color: 'red.500' },
+          'In-Review': { icon: MdOutlineError, color: 'orange.500' },
+          Default: { icon: MdHelpOutline, color: 'gray.500' },
+        };
+    
+        const { icon, color } = statusIcons[currentStatus] || statusIcons.Default;
+    
         return editingRow === rowIndex ? (
           <Select
-            value={tempStatus[rowIndex] || tableData[rowIndex].status}
+            value={currentStatus}
             onChange={(e) => handleStatusChange(rowIndex, e.target.value)}
           >
             {statusOptions.map((status) => (
@@ -89,7 +133,12 @@ export default function ExpenseTable({ tableData, setTableData }) {
             ))}
           </Select>
         ) : (
-          <Text color={textColor} fontSize="sm" fontWeight="700">{info.getValue()}</Text>
+          <Flex align="center">
+            <Icon w="24px" h="24px" me="5px" color={color} as={icon} />
+            <Text color={textColor} fontSize="sm" fontWeight="700">
+              {info.getValue()}
+            </Text>
+          </Flex>
         );
       },
     }),

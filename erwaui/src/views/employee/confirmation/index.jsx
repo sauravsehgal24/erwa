@@ -22,10 +22,10 @@
 
 // Chakra imports
 import { Box } from "@chakra-ui/react";
-import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
+import DevelopmentTable from "views/employee/confirmation/components/DevelopmentTable";
 import { columnsDataDevelopment } from "views/admin/dataTables/variables/columnsData";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from '../../../util/api';
 import { useSelector, useDispatch } from "react-redux";
 import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
 
@@ -33,18 +33,19 @@ import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/m
 export default function Settings() {
   // Chakra Color Mode
   const [tableData, setTableData] = useState([]);
-  const user = useSelector((state) => state.auth.user); // Assuming user object is stored in Redux state
+  const user = useSelector((state) => state.user.userInfo); // Assuming user object is stored in Redux state
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!user || !user.user_id) {
+    if (!user || !user.email) {
       dispatch(renderErrMessage("Unauthorized: No user ID found"));
       return;
     }
-
-    axios.get(`/v1/user/get_expenses_by_user?user_id=${user.user_id}`)
+  
+    axios.get(`/user/get_expenses_by_user?email=${user.email}`)
       .then(res => {
         setTableData(res.data);
+        console.log(res.data)
         dispatch(renderSuccessMessage("Expenses loaded successfully"));
       })
       .catch(err => {

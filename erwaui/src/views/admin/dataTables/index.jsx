@@ -25,7 +25,7 @@ import { Box } from "@chakra-ui/react";
 import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
 import { columnsDataDevelopment } from "views/admin/dataTables/variables/columnsData";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from '../../../util/api';
 import { useDispatch } from "react-redux";
 import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
 
@@ -34,7 +34,7 @@ export default function AdminExpenses() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get("/v1/admin/get_expenses")
+    axios.get("/admin/get_expenses")
       .then(res => {
         setTableData(res.data);
         dispatch(renderSuccessMessage("Admin expenses loaded successfully"));
@@ -47,7 +47,7 @@ export default function AdminExpenses() {
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <DevelopmentTable columnsData={columnsDataDevelopment} tableData={tableData} />
+      <DevelopmentTable  tableData={tableData} />
     </Box>
   );
 }
