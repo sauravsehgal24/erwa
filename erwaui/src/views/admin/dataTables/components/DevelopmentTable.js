@@ -17,6 +17,7 @@ import {
   Select,
   Button,
 } from '@chakra-ui/react';
+import axios from '../../../../util/api';
 import {
   createColumnHelper,
   flexRender,
@@ -24,18 +25,19 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-// Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
-// Assets
+import { useDispatch } from 'react-redux';
+import { renderSuccessMessage, renderErrMessage } from '../../../../redux/actions/messageAction';
 import { MdCancel, MdCheckCircle, MdOutlineError, MdHelpOutline } from 'react-icons/md';
 
 const columnHelper = createColumnHelper();
 
-export default function ExpenseTable({ tableData, setTableData }) {
+export default function ExpenseTable({ tableData, set_tableData }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  const dispatch = useDispatch();
 
   const [editingRow, setEditingRow] = React.useState(null);
   const [tempStatus, setTempStatus] = React.useState({});
@@ -45,21 +47,25 @@ export default function ExpenseTable({ tableData, setTableData }) {
     setTempStatus((prev) => ({ ...prev, [rowIndex]: newStatus }));
   };
 
-  const handleEditClick = (rowIndex) => {
-    setEditingRow(rowIndex);
-    setTempStatus((prev) => ({ ...prev, [rowIndex]: tableData[rowIndex].status }));
-  };
+  const handleSaveClick = async (rowIndex) => {
+    const expenseId = tableData[rowIndex].expense_id;
+    const newStatus = tempStatus[rowIndex];
 
-  const handleSaveClick = (rowIndex) => {
-    const updatedData = [...tableData];
-    updatedData[rowIndex].status = tempStatus[rowIndex];
-    setTableData(updatedData);
-    setEditingRow(null);
-  };
-
-  const handleDeleteClick = (rowIndex) => {
-    const updatedData = tableData.filter((_, index) => index !== rowIndex);
-    setTableData(updatedData);
+    try {
+      await axios.post('/admin/update_expense_status', {
+        expense_id: expenseId,
+        status: newStatus,
+      });
+      
+      const updatedData = [...tableData];
+      updatedData[rowIndex].status = newStatus;
+      set_tableData(updatedData);
+      setEditingRow(null);
+      dispatch(renderSuccessMessage('Expense status updated successfully'));
+    } catch (error) {
+      console.error(error);
+      dispatch(renderErrMessage('Error updating expense status'));
+    }
   };
 
   const columns = [
@@ -88,36 +94,38 @@ export default function ExpenseTable({ tableData, setTableData }) {
       header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Receipt</Text>,
       cell: (info) => <Link href={info.getValue()} color="blue.500" isExternal>View</Link>,
     }),
+    columnHelper.accessor('submitted_date', {
+      id: 'submitted_date',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Submitted Date</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{new Date(info.getValue()).toLocaleDateString()}</Text>,
+    }),
+    columnHelper.accessor('updated_date', {
+      id: 'updated_date',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Updated Date</Text>,
+      cell: (info) => <Text color={textColor} fontSize="sm">{new Date(info.getValue()).toLocaleDateString()}</Text>,
+    }),
     columnHelper.accessor('status', {
       id: 'status',
-      header: () => (
+      header: () => 
         <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
           Status
-        </Text>
-      ),
+        </Text>,
       cell: (info) => {
         const rowIndex = info.row.index;
-        const statusValue = info.getValue();
-        const statusIcon =
-          statusValue === 'Approved'
-            ? MdCheckCircle
-            : statusValue === 'Declined'
-            ? MdCancel
-            : statusValue === 'In-Review'
-            ? MdOutlineError
-            : MdHelpOutline;
-        const statusColor =
-          statusValue === 'Approved'
-            ? 'green.500'
-            : statusValue === 'Declined'
-            ? 'red.500'
-            : statusValue === 'In-Review'
-            ? 'orange.500'
-            : 'gray.500';
+        const currentStatus = tempStatus[rowIndex] || tableData[rowIndex].status;
+    
+        const statusIcons = {
+          Approved: { icon: MdCheckCircle, color: 'green.500' },
+          Declined: { icon: MdCancel, color: 'red.500' },
+          'In-Review': { icon: MdOutlineError, color: 'orange.500' },
+          Default: { icon: MdHelpOutline, color: 'gray.500' },
+        };
+    
+        const { icon, color } = statusIcons[currentStatus] || statusIcons.Default;
     
         return editingRow === rowIndex ? (
           <Select
-            value={tempStatus[rowIndex] || tableData[rowIndex].status}
+            value={currentStatus}
             onChange={(e) => handleStatusChange(rowIndex, e.target.value)}
           >
             {statusOptions.map((status) => (
@@ -126,9 +134,9 @@ export default function ExpenseTable({ tableData, setTableData }) {
           </Select>
         ) : (
           <Flex align="center">
-            <Icon w="24px" h="24px" me="5px" color={statusColor} as={statusIcon} />
+            <Icon w="24px" h="24px" me="5px" color={color} as={icon} />
             <Text color={textColor} fontSize="sm" fontWeight="700">
-              {statusValue}
+              {info.getValue()}
             </Text>
           </Flex>
         );
@@ -146,13 +154,10 @@ export default function ExpenseTable({ tableData, setTableData }) {
                 Save
               </Button>
             ) : (
-              <Button size="sm" colorScheme="blue" onClick={() => handleEditClick(rowIndex)}>
+              <Button size="sm" colorScheme="blue" onClick={() => setEditingRow(rowIndex)}>
                 Edit
               </Button>
             )}
-            <Button size="sm" colorScheme="red" onClick={() => handleDeleteClick(rowIndex)}>
-              Delete
-            </Button>
           </Flex>
         );
       },

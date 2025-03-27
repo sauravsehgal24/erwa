@@ -112,11 +112,6 @@ export default function ExpenseTable(props) {
         </Flex>
       ),
     }),    
-    columnHelper.accessor('approved_by', {
-      id: 'approved_by',
-      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Approved By</Text>,
-      cell: (info) => <Text color={textColor} fontSize="sm">{info.getValue() || 'N/A'}</Text>,
-    }),
   ];
 
   const table = useReactTable({

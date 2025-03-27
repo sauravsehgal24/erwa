@@ -193,23 +193,23 @@ def testlib():
     return "Test OCRLIB"
 
 # Example usage:
-if _name_ == "_main_":
-    # Specify the local path to your receipt image.
-    local_receipt_path = "D:\\Downloads\\WhatsApp Image 2025-03-22 at 2.10.02 PM (1).jpeg"
+# if _name_ == "_main_":
+#     # Specify the local path to your receipt image.
+#     local_receipt_path = "D:\\Downloads\\WhatsApp Image 2025-03-22 at 2.10.02 PM (1).jpeg"
     
-    # Optionally, if you have a SAS token string (without the leading '?' if you prefer),
-    # you can provide it; otherwise, pass None.
-    sas_token = None
+#     # Optionally, if you have a SAS token string (without the leading '?' if you prefer),
+#     # you can provide it; otherwise, pass None.
+#     sas_token = None
     
-    try:
-        # Upload the image to Blob Storage and get its URL.
-        uploaded_blob_url = upload_receipt_to_blob(local_receipt_path, sas_token=sas_token)
-        print(f"Uploaded blob URL: {uploaded_blob_url}")
+#     try:
+#         # Upload the image to Blob Storage and get its URL.
+#         uploaded_blob_url = upload_receipt_to_blob(local_receipt_path, sas_token=sas_token)
+#         print(f"Uploaded blob URL: {uploaded_blob_url}")
         
-        # Analyze the receipt image using Azure Document Intelligence.
-        analysis_output = analyze_receipt_image(uploaded_blob_url)
-        print("Analysis JSON Output:")
-        print(json.dumps(analysis_output, indent=2))
-    except Exception as e:
-        print("An error occurred:")
-        print(e)
+#         # Analyze the receipt image using Azure Document Intelligence.
+#         analysis_output = analyze_receipt_image(uploaded_blob_url)
+#         print("Analysis JSON Output:")
+#         print(json.dumps(analysis_output, indent=2))
+#     except Exception as e:
+#         print("An error occurred:")
+#         print(e)

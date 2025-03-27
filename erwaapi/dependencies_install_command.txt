@@ -40,5 +40,5 @@ requests \
 djangorestframework \
 azure-core \
 azure-ai-documentintelligence \
-azure-storage-blob \ 
+azure-storage-blob \
 azure-ai-formrecognizer

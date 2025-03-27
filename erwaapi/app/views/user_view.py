@@ -121,13 +121,13 @@ def get_user_by_id(request):
 # Get expenses by user_id
 @api_view(["GET"])
 def get_expenses_by_user(request):
-    user_id = request.GET.get("user_id")
+    email = request.GET.get("email")
     
-    if not user_id:
-        return JsonResponse({"message": "user_id is required"}, status=400)
+    if not email:
+        return JsonResponse({"message": "email is required"}, status=400)
 
-    expenses = Expense.objects.filter(user_id=user_id).values(
-        "expense_id", "amount", "status", "file_url", "submitted_date", "updated_date"
+    expenses = Expense.objects.filter(email=email).values(
+        "expense_id", "full_name", "email", "amount", "file_url", "submitted_date", "updated_date", "status", "approved_by"
     )
 
     return JsonResponse(list(expenses), safe=False, status=200)
