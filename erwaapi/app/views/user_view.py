@@ -129,7 +129,7 @@ def get_expenses_by_user(request):
         return JsonResponse({"message": "email is required"}, status=400)
 
     expenses = Expense.objects.filter(email=email).values(
-        "expense_id", "full_name", "email", "amount", "file_url", "submitted_date", "updated_date", "status", "approved_by"
+        "expense_id", "full_name", "email", "amount", "file_url", "submitted_date", "updated_date", "status", "approved_by", "ocr_json"
     )
 
     return JsonResponse(list(expenses), safe=False, status=200)

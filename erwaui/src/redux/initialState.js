@@ -23,8 +23,7 @@ const initialState = {
     },
     receipt:{
         isViewReceiptActive: false,
-        userReceipts: [],
-        selectedReceiptIndex:-1
+        selectedReceipt: "",
     }
 };
 
