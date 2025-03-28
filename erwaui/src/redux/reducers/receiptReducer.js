@@ -7,6 +7,7 @@ const receiptReducer = (state = initialState, action) => {
                 ...state,
                 receipt:{
                     isViewReceiptActive:true,
+                    selectedReceiptIndex: action.payload
                 }
             }
         case "HIDE":
@@ -14,6 +15,18 @@ const receiptReducer = (state = initialState, action) => {
                 ...state,
                 receipt:{
                     isViewReceiptActive:false,
+                    selectedReceiptIndex: -1
+                }
+            }
+        case "ADD":
+            console.log("receipts")
+            const receipts = [...state.receipt.userReceipts,action.payload]
+            console.log(receipts)
+            return {
+                ...state,
+                receipt:{
+                    ...state.receipt,
+                    userReceipts: [...receipts]
                 }
             }
         default:

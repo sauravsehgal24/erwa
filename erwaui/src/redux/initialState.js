@@ -22,7 +22,9 @@ const initialState = {
         user_id:null
     },
     receipt:{
-        isViewReceiptActive: false
+        isViewReceiptActive: false,
+        userReceipts: [],
+        selectedReceiptIndex:-1
     }
 };
 

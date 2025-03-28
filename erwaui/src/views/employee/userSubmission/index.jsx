@@ -27,6 +27,7 @@ import React, {useEffect, useState} from 'react';
 import Dropzone from "views/admin/profile/components/Dropzone";
 import api from 'util/api'
 import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
+import { addReceipt } from '../../../redux/actions/receiptActions';
 export default function ExpenseTable(props) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const user = useSelector((state) => state.user.userInfo);
@@ -64,13 +65,15 @@ export default function ExpenseTable(props) {
         amount: amounts.total ? amounts.total : amounts.sub_total,
         ocr_json: JSON.stringify(receiptData)
       }
-      console.log(data)
       api.post("/user/submit_expense", data, {
         headers: {
           'Content-Type': 'application/json'
         }})
       .then(res=>{
         dispatch(renderSuccessMessage("Expense Submitted!"))
+        console.log("receipt data")
+        console.log(receiptData)
+        dispatch(addReceipt(receiptData))
       }).catch(err=>{
         dispatch(renderErrMessage("Internal Error Submitting!"))
       })

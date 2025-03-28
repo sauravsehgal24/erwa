@@ -1,14 +1,33 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CloseIcon } from '@chakra-ui/icons';
-import { Box, Text, IconButton } from '@chakra-ui/react';
 import { viewReceipt, hideReceipt } from '../../../redux/actions/receiptActions';
-
+import Card from 'components/card/Card';
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Icon,
+  Tr,
+  useColorModeValue,
+  FormControl,
+  Spinner,
+  InputGroup,
+  InputLeftElement,
+  IconButton
+} from '@chakra-ui/react';
 const ReceiptViewPopup = () => {
   const dispatch = useDispatch();
-  const receipt = useSelector((state) => state.receipt.receipt);
+  const receiptData = useSelector((state) => state.receipt.receipt);
 
-  if (!receipt.isViewReceiptActive) return null;
+  if (!receiptData.isViewReceiptActive) return null;
 
   const handleClose = () => {
     dispatch(hideReceipt());
@@ -54,7 +73,45 @@ const ReceiptViewPopup = () => {
         overflow="auto"
         textAlign="center"
       >
-        <Text fontSize="xl" fontWeight="bold">{}</Text>
+        <Card style={{width:"70%"}} overflow={'scroll'}>
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>Item</Th>
+                      <Th>Price ($)</Th>
+                    </Tr>
+                  </Thead>
+                      <Tbody >
+                      {receiptData?.items?.map((row, index) => (
+                      <Tr key={index}>
+                          <Td>
+                            <InputGroup>
+                            <Input
+                              value={row?.description?.value}
+                            border={'2px solid'}
+                            borderColor="gray.300"
+                            disabled
+                            />
+                            </InputGroup>
+                          </Td>
+                          <Td>
+                          <InputGroup>
+                            <Input
+                              type="number"
+                              value={row?.total_price?.value}
+                              id={"item_"+row?.item_index}
+                              border={'2px solid'}
+                              borderColor="gray.300"
+                              disabled
+                            />
+                            </InputGroup>
+                        </Td>
+                      </Tr>
+                      ))}
+                  </Tbody>
+                
+                </Table>
+              </Card>
       </Box>
     </Box>
   );

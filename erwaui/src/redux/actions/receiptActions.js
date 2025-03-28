@@ -1,9 +1,16 @@
-const viewReceipt = () => ({
-    type: "VIEW"
+const viewReceipt = (index) => ({
+    type: "VIEW",
+    payload:index
 });
 
 const hideReceipt = () => ({
     type: "HIDE"
 });
 
-export { viewReceipt, hideReceipt};
+const addReceipt = (receipt) => ({
+    type: "ADD",
+    payload: receipt
+});
+
+
+export { viewReceipt, hideReceipt, addReceipt};
