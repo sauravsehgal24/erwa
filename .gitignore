@@ -10,4 +10,4 @@ erwaapi/settings.ini
 erwaapi/app/__pycache__/
 erwaapi/app/middleware/__pycache__/auth_middleware.cpython-312.pyc
 
-vscode/
+.vscode/

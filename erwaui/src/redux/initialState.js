@@ -18,7 +18,13 @@ const initialState = {
         email:null,
         accessToken:null,
         full_name:null,
-        job:null
+        job:null,
+        user_id:null
+    },
+    receipt:{
+        isViewReceiptActive: false,
+        userReceipts: [],
+        selectedReceiptIndex:-1
     }
 };
 

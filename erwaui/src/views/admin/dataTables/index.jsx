@@ -27,7 +27,7 @@ import { columnsDataDevelopment } from "views/admin/dataTables/variables/columns
 import React, { useEffect, useState } from "react";
 import axios from '../../../util/api';
 import { useDispatch } from "react-redux";
-import { renderSuccessMessage, renderErrMessage } from '../../../redux/actions/messageAction';
+import { renderSuccessMessage, renderErrMessage, renderWarnMessage } from '../../../redux/actions/messageAction';
 
 export default function AdminExpenses() {
   const [tableData, setTableData] = useState([]);
@@ -37,7 +37,10 @@ export default function AdminExpenses() {
     axios.get("/admin/get_expenses")
       .then(res => {
         setTableData(res.data);
-        dispatch(renderSuccessMessage("Admin expenses loaded successfully"));
+        if(res.data.length > 0)
+          dispatch(renderSuccessMessage("Expenses loaded successfully"));
+        else
+          dispatch(renderWarnMessage("No Expense data available to load"))
       })
       .catch(err => {
         console.error(err);
