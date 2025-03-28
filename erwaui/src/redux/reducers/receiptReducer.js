@@ -3,19 +3,21 @@ import initialState from "../initialState";
 const receiptReducer = (state = initialState, action) => {
     switch(action.type){
         case "VIEW":
-            return {
+            const s = {
                 ...state,
                 receipt:{
+                    ...state.receipt,
                     isViewReceiptActive:true,
-                    selectedReceiptIndex: action.payload
+                    selectedReceipt: action.payload
                 }
             }
+            return s
         case "HIDE":
             return {
                 ...state,
                 receipt:{
                     isViewReceiptActive:false,
-                    selectedReceiptIndex: -1
+                    selectedReceipt:""
                 }
             }
         case "ADD":

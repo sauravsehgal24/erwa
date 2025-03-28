@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CloseIcon } from '@chakra-ui/icons';
 import { viewReceipt, hideReceipt } from '../../../redux/actions/receiptActions';
@@ -26,6 +26,14 @@ import {
 const ReceiptViewPopup = () => {
   const dispatch = useDispatch();
   const receiptData = useSelector((state) => state.receipt.receipt);
+
+  const [_receiptData, setReceiptData] = useState({})
+
+  useEffect(()=>{
+    if(receiptData.selectedReceipt){
+      setReceiptData(JSON.parse(receiptData.selectedReceipt)) 
+    }
+  },[receiptData])
 
   if (!receiptData.isViewReceiptActive) return null;
 
@@ -73,7 +81,7 @@ const ReceiptViewPopup = () => {
         overflow="auto"
         textAlign="center"
       >
-        <Card style={{width:"70%"}} overflow={'scroll'}>
+        <Card style={{width:"100%"}} overflow={'scroll'}>
                 <Table variant="simple">
                   <Thead>
                     <Tr>
@@ -82,7 +90,7 @@ const ReceiptViewPopup = () => {
                     </Tr>
                   </Thead>
                       <Tbody >
-                      {receiptData?.items?.map((row, index) => (
+                      {_receiptData?.items?.map((row, index) => (
                       <Tr key={index}>
                           <Td>
                             <InputGroup>

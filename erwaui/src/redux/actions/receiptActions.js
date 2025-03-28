@@ -1,6 +1,6 @@
-const viewReceipt = (index) => ({
+const viewReceipt = (ocr_json) => ({
     type: "VIEW",
-    payload:index
+    payload:ocr_json
 });
 
 const hideReceipt = () => ({

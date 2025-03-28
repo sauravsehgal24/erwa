@@ -71,9 +71,6 @@ export default function ExpenseTable(props) {
         }})
       .then(res=>{
         dispatch(renderSuccessMessage("Expense Submitted!"))
-        console.log("receipt data")
-        console.log(receiptData)
-        dispatch(addReceipt(receiptData))
       }).catch(err=>{
         dispatch(renderErrMessage("Internal Error Submitting!"))
       })

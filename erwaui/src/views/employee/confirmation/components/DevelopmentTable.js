@@ -41,8 +41,8 @@ export default function ExpenseTable(props) {
    const receiptStore = useSelector((state) => state.receipt.receipt); 
   const dispatch = useDispatch();
 
-  const handleViewReceipt = (index)=>{
-    dispatch(viewReceipt(index))
+  const handleViewReceipt = (ocr_json)=>{
+    dispatch(viewReceipt(ocr_json))
   }
   
 
@@ -67,11 +67,11 @@ export default function ExpenseTable(props) {
       header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Amount ($)</Text>,
       cell: (info) => <Text color={textColor} fontSize="sm" fontWeight="700">${info.getValue()}</Text>,
     }),
-    // columnHelper.accessor('file_url', {
-    //   id: 'file_url',
-    //   header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Receipt</Text>,
-    //   cell: (info) => <Link onClick={()=>handleViewReceipt(info.row.index)} color="blue.500" isExternal>View</Link>,
-    // }),
+    columnHelper.accessor('file_url', {
+      id: 'file_url',
+      header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Receipt</Text>,
+      cell: (info) => <Link onClick={()=>handleViewReceipt(info.row.original.ocr_json)} color="blue.500" isExternal>View</Link>,
+    }),
     columnHelper.accessor('submitted_date', {
       id: 'submitted_date',
       header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Submitted Date</Text>,
