@@ -128,10 +128,15 @@ export default function ExpenseTable(props) {
   }
 
   const handleReceiptData = (e,index,type)=>{
+    console.log(e.target.value)
     console.log("in handle change")
     console.log(receiptData)
     let newData = {...receiptData}
-    newData.items[index][type]["value"] = e.target.value
+      newData.items[index] = {
+        ...newData.items[index], [type]:{
+          "value":e.target.value
+        }
+      }
     setReceiptData(newData)
   } 
   
@@ -201,7 +206,7 @@ export default function ExpenseTable(props) {
                                   children={<MdEdit />}
                                 />
                               <Input
-                                value={row?.description?.value}
+                                value={row?.description?.value || ""}
                               border={'2px solid'}
                               borderColor="gray.300"
                               onChange={(e)=>handleReceiptData(e, index, "description")}
@@ -216,7 +221,7 @@ export default function ExpenseTable(props) {
                                 />
                               <Input
                                 type="number"
-                                value={row?.total_price?.value}
+                                value={row?.total_price?.value || ""}
                                 id={"item_"+row?.item_index}
                                 border={'2px solid'}
                                 borderColor="gray.300"

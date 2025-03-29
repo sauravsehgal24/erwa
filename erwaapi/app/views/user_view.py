@@ -130,7 +130,7 @@ def get_expenses_by_user(request):
 
     expenses = Expense.objects.filter(email=email).values(
         "expense_id", "full_name", "email", "amount", "file_url", "submitted_date", "updated_date", "status", "approved_by", "ocr_json"
-    )
+    ).order_by("-submitted_date")
 
     return JsonResponse(list(expenses), safe=False, status=200)
 

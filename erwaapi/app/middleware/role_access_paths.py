@@ -4,7 +4,7 @@ ROLE_PATHS = {
             "/v1/admin/get_user_list",
             "/v1/admin/get_expenses",
             "/v1/admin/update_expense_status",
-            "/v1/admin/delete_expense"
+            "/v1/admin/delete_expense",
             "/v1/user/get_user_by_email",
         ],  # Paths only Admin can access
         "USER": [
