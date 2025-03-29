@@ -37,8 +37,6 @@ export default function ExpenseTable(props) {
   const { tableData } = props;
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-  let defaultData = tableData;
-   const receiptStore = useSelector((state) => state.receipt.receipt); 
   const dispatch = useDispatch();
 
   const handleViewReceipt = (ocr_json)=>{

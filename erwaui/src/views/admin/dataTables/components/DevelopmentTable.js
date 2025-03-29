@@ -28,6 +28,7 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
+import { viewReceipt } from '../../../../redux/actions/receiptActions';
 import { useDispatch } from 'react-redux';
 import { renderSuccessMessage, renderErrMessage } from '../../../../redux/actions/messageAction';
 import { MdCancel, MdCheckCircle, MdOutlineError, MdHelpOutline } from 'react-icons/md';
@@ -46,6 +47,10 @@ export default function ExpenseTable({ tableData, set_tableData }) {
   const handleStatusChange = (rowIndex, newStatus) => {
     setTempStatus((prev) => ({ ...prev, [rowIndex]: newStatus }));
   };
+
+  const handleViewReceipt = (ocr_json)=>{
+      dispatch(viewReceipt(ocr_json))
+    }
 
   const handleSaveClick = async (rowIndex) => {
     const expenseId = tableData[rowIndex].expense_id;
@@ -92,7 +97,7 @@ export default function ExpenseTable({ tableData, set_tableData }) {
     columnHelper.accessor('file_url', {
       id: 'file_url',
       header: () => <Text fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">Receipt</Text>,
-      cell: (info) => <Link href={info.getValue()} color="blue.500" isExternal>View</Link>,
+      cell: (info) => <Link onClick={()=>handleViewReceipt(info.row.original.ocr_json)} color="blue.500" isExternal>View</Link>,
     }),
     columnHelper.accessor('submitted_date', {
       id: 'submitted_date',
