@@ -21,11 +21,9 @@ export default function Main() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   useEffect(()=>{
-    console.log("user email: ",user.email)
     // if token is available in local storage then fetch the user info 
     const token = localStorage.getItem("access_token")
     if(token && !user.email){
-      console.log("inside login")
       api.get("/user/get_user_by_email").then((res)=>{
         const userInfo = res.data
         userInfo.access_token = token

@@ -23,7 +23,7 @@ def get_users(request):
 # Get list of Expenses
 @api_view(["GET"])
 def get_expenses(request):
-    expenses = Expense.objects.all()
+    expenses = Expense.objects.all().order_by("-submitted_date")
     serializer = ExpenseSerializer(expenses, many=True)
     return Response(serializer.data)
 
