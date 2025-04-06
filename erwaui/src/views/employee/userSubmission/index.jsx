@@ -46,7 +46,7 @@ export default function ExpenseTable(props) {
     total: '',
   });
   
-  const [receiptData, setReceiptData] = useState([]);
+  const [receiptData, setReceiptData] = useState({});
   
   const handleAmountChange = (e) => {
     const { name, value } = e.target;
@@ -70,6 +70,12 @@ export default function ExpenseTable(props) {
           'Content-Type': 'application/json'
         }})
       .then(res=>{
+        setReceiptData({})
+        setAmounts({
+          sub_total: '',
+          taxes: '',
+          total: '',
+        })
         dispatch(renderSuccessMessage("Expense Submitted!"))
       }).catch(err=>{
         dispatch(renderErrMessage("Internal Error Submitting!"))
